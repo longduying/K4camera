@@ -15,6 +15,7 @@
      height: 50px;
      background: white;
      line-height: 50px;
+     padding-left: 3%;
      border-bottom: 1px solid gainsboro;
  }
 </style>
