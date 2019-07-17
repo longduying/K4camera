@@ -22,9 +22,9 @@
             <div>
                 <div @click="show2"><span class="iconfont icon-dingdan1" style="font-size: 18px"></span>交易管理</div>
                 <ul v-show="b">
-                    <router-link to="orderManage" tag="li">订单管理</router-link>
-                    <router-link to="orderRef" tag="li">交易退款</router-link>
-                    <router-link to="evailManage" tag="li">评论管理</router-link>
+                    <router-link to="/OrderManage" tag="li">订单管理</router-link>
+                    <router-link to="/OrderRef" tag="li">交易退款</router-link>
+                    <router-link to="/EvailManage" tag="li">评论管理</router-link>
                 </ul>
             </div>
             <div>
@@ -67,7 +67,7 @@
                 <span class="exit">退出登录</span>
             </div>
             <div class="rightMain">
-
+                <router-view></router-view>
             </div>
         </div>
     </div>
@@ -154,11 +154,10 @@
             line-height: 60px;
         }
         .rightMain{
-            width: 93%;
+            width: 96%;
             height: 580px;
             background: white;
             margin-left: 2%;
-            padding-left: 3%;
             margin-top: 2%;
         }
     }

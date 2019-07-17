@@ -1,9 +1,11 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-
 import Index from './views/Index'
+import OrderManage from './components/OrderManage'
+import OrderRef from './components/OrderRef'
+import EvailManage from './components/EvailManage'
 
-Vue.use(Router)
+    Vue.use(Router)
 
 export default new Router({
     mode: 'history',
@@ -12,7 +14,25 @@ export default new Router({
         {
             path: '/',
             name: 'Index',
-            component: Index
+            component: Index,
+            children:[
+                {
+                    path:'/OrderManage',
+                    name:'OrderManage',
+                    component:OrderManage
+                },
+                {
+                    path:'/OrderRef',
+                    name:'OrderRef',
+                    component:OrderRef
+                },
+                {
+                    path:'/EvailManage',
+                    name:'EvailManage',
+                    component:EvailManage
+                },
+
+            ]
         }
     ]
 })
