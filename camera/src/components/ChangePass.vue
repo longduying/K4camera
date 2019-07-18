@@ -1,12 +1,10 @@
 <template>
     <div class="boss">
 
-        <!--登录框-->
         <div class="box">
             <!--标题-->
             <div class="head">
-                <p>欢迎登陆雷霆数码</p>
-                <p>后台管理系统</p>
+                <p>修改密码</p>
             </div>
 
             <!--输入部分-->
@@ -37,41 +35,60 @@
                     <p class="content" >{{passCon}} &nbsp;</p>
                 </div>
 
-                <p class="no-pass" @click="goNoPass">忘记密码?</p>
+                <!--新密码-->
+                <div class="inp">
+                    <div class="ipt">
+                        <p>
+                            <span class="iconfont icon-mima"></span>
+                        </p>
+                        <input type="text" placeholder="新密码" v-model="newPass" @blur="newPassBlur">
+                        <span class="iconfont icon-cuo no" v-show="newPassNo"></span>
+                        <span class="iconfont icon-dui yes" v-show="newPassYes"></span>
+                    </div>
+                    <p class="content" >{{newPassCon}} &nbsp;</p>
+                </div>
+
+                <!--重复密码-->
+                <div class="inp">
+                    <div class="ipt">
+                        <p>
+                            <span class="iconfont icon-mima"></span>
+                        </p>
+                        <input type="text" placeholder="确认密码" v-model="newPassTwo" @blur="newPassTwoBlur">
+                        <span class="iconfont icon-cuo no" v-show="newPassTwoNo"></span>
+                        <span class="iconfont icon-dui yes" v-show="newPassTwoYes"></span>
+                    </div>
+                    <p class="content" >{{newPassTwoCon}} &nbsp;</p>
+                </div>
+
             </div>
 
             <div class="btn">
-                <!--<router-link :to="aa" tag="button"  @click="goLogin">登  录</router-link>-->
-                <button @click="goLogin">登陆</button>
+
+                <button class="no-pass-btn-no" @click="EChangePassNo">取消</button>
+                <button class="no-pass-btn-yes" @click="EChangePassYes">确定</button>
+
             </div>
         </div>
 
-        <!--改变密码弹框-->
-        <ChangePass v-show="changePassShow"></ChangePass>
 
-        <!--消息弹框-->
-        <Alert v-show="AlertShow"></Alert>
     </div>
 </template>
 
 <script>
 
 
-    import ChangePass from './../components/ChangePass'
-    import Alert from './../components/Alert'
 
     export default {
-        name: "Login",
+        name: "ChangePass",
         data:function () {
             return {
-                //用户名正在验证
-                userReg:/^[A-Z]{2}[0-9]{4}$/,
-
-                //密码正则验证
-                passReg:/^(?![0-9]+$)(?![a-z]+$)(?![A-Z]+$)(?![0-9a-z]+$)(?![0-9A-Z]+$)(?![A-Za-z]+$).{8,16}$/,
-
+                //弹框的显示隐藏
+                ChangePassShow:false,
 
             /*----------账号 开始----------*/
+                //用户名正则验证
+                userReg:/^[A-Z]{2}[0-9]{4}$/,
                 //输入内容
                 user:'',
                 //描述信息显示隐藏
@@ -84,8 +101,10 @@
                 userNo:false,
             /*----------账号  结束---------*/
 
-            /*----------密码  开始----------*/
+                //密码正则验证
+                passReg:/^(?![0-9]+$)(?![a-z]+$)(?![A-Z]+$)(?![0-9a-z]+$)(?![0-9A-Z]+$)(?![A-Za-z]+$).{8,16}$/,
 
+            /*----------密码  开始----------*/
                 //输入内容
                 pass:'',
                 //描述信息显示隐藏
@@ -96,15 +115,35 @@
                 passYes:false,
                 //错误图标显示
                 passNo:false,
-
             /*----------密码  结束----------*/
 
-                //修改密码弹框的显示隐藏
-                changePassShow:false,
-                //Alert弹框的显示隐藏
-                AlertShow:false,
-                //Alert的返回值
-                AlertNum:0,
+            /*----------密码  开始----------*/
+                //输入内容
+                newPass:'',
+                //描述信息显示隐藏
+                newPassConShow:false,
+                //描述信息显示内容
+                newPassCon:'',
+                //正确图标显示
+                newPassYes:false,
+                //错误图标显示
+                newPassNo:false,
+            /*----------密码  结束----------*/
+
+            /*----------重复密码  开始----------*/
+                //输入内容
+                newPassTwo:'',
+                //描述信息显示隐藏
+                newPassConShowTwo:false,
+                //描述信息显示内容
+                newPassTwoCon:'',
+                //正确图标显示
+                newPassTwoYes:false,
+                //错误图标显示
+                newPassTwoNo:false,
+            /*----------重复密码  结束----------*/
+
+
 
             }
         },
@@ -153,23 +192,44 @@
                 return this.Reg(this.passReg,'pass','*密码应当包含字母大写、小写、数字、特殊符号其中三种，8-16位');
             },
 
-            //登录按钮被点击
-            goLogin(){
-                if (this.userBlur() && this.passBlur()) {
-                   alert(1);
+            //密码输入框失去焦点
+            newPassBlur(){
+                if (!this.sky('newPass')) {
+                    return false;
                 }
-
-                //发送请求数据
-
+                return this.Reg(this.passReg,'newPass','*密码应当包含字母大写、小写、数字、特殊符号其中三种，8-16位');
             },
-            goNoPass(){
-                this.$router.push('/NoPass');
+
+            //重复密码框失去焦点
+            newPassTwoBlur(){
+                if (!this.sky('newPassTwo')) {
+                    return false;
+                }
+                if (this.newPass==this.newPassTwo){
+                    this.newPassTwoCon='';
+                    this.newPassTwoNo=false;
+                    this.newPassTwoYes=!this.newPassTwoNo;
+                    return true;
+                } else {
+                    this.newPassTwoCon='*两次密码不一致';
+                    this.newPassTwoNo=true;
+                    this.newPassTwoYes=!this.newPassTwoNo;
+                    return false;
+                }
+            },
+
+            //取消按钮被点击
+            EChangePassNo(){
+                this.$parent.ChangePassShow=false;
+            },
+
+            //确定按钮被点击
+            EChangePassYes(){
+                //发送请求
             }
+
         },
-        components:{
-            ChangePass,
-            Alert
-        }
+
     }
 </script>
 
@@ -185,10 +245,10 @@
 
 
     .boss{
-        background: url("./../../public/timg (1).jpg")no-repeat;
+        background: rgba(0,0,0,0.3);
         width: 100%;
         height: 100%;
-        position: absolute;
+        position: fixed;
         top: 0;
         left: 0;
     }
@@ -196,17 +256,18 @@
     //主体
     .box{
         width: 400px;
-        height: 300px;
+        height: 350px;
         padding: 10px 10px;
         border-radius: 10px;
         text-align: center;
         margin: 100px auto;
-        background: rgba(255,255,255,0.9);
+        background: white;
     }
 
     //标题
     .head{
         margin-bottom: 10px;
+        margin-top: 10px;
         >p{
             font-size: 26px;
             color: #55a532;
@@ -272,7 +333,7 @@
 
     //忘记密码
     .no-pass{
-        width: 63px;
+        width: 100%;
         text-align: left;
         font-size: 14px;
         color: #969696;
@@ -284,16 +345,30 @@
     }
 
     //按钮
+    .btnPublic{
+        width: 120px;
+        height: 35px;
+        cursor: pointer;
+        border-radius: 5px;
+        border: 1px solid skyblue;
+    }
     .btn{
-        margin-top: 30px;
-        >button{
-            width: 120px;
-            height: 35px;
-            border: 1px solid skyblue;
-            border-radius: 5px;
+        margin-top: 20px;
+        width: 100%;
+        text-align: center;
+
+
+        >.no-pass-btn-yes{
+            .btnPublic();
             background: #0aa0f6;
             color: white;
-            cursor: pointer;
+            margin-left: 40px;
+        }
+
+        >.no-pass-btn-no>{
+            .btnPublic();
+            background: white;
+            color: black;
         }
     }
 
