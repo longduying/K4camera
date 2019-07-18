@@ -85,9 +85,13 @@
                 e:false,
                 f:false,
                 g:false,
+                tab:''
             }
         },
         methods:{
+            show(){
+
+            },
             show1(){
                 this.a=!this.a
             },
@@ -126,7 +130,7 @@
         flex: 1.5;
         background: #273043;
         color: #d4d6d9;
-        height: 650px;
+        /*height: 650px;*/
         div div{
             height: 50px;
             line-height: 50px;
@@ -155,7 +159,7 @@
         }
         .rightMain{
             width: 96%;
-            height: 580px;
+            /*height: 580px;*/
             background: white;
             margin-left: 2%;
             margin-top: 2%;
