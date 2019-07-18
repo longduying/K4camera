@@ -60,7 +60,9 @@
     export default {
         name: "ReceiveAddress",
         data:function(){
-
+            return {
+                msg:"天气不好"
+            }
         },
         methods:{
             hid(){
