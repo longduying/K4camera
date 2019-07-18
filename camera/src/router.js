@@ -1,6 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Index from './views/Index'
+import Login from './views/Login'
+import NoPass from './views/NoPass'
+import Root from './views/Root'
 import OrderManage from './components/OrderManage'
 import OrderRef from './components/OrderRef'
 import EvailManage from './components/EvailManage'
@@ -54,8 +57,30 @@ export default new Router({
                     name:'EvailManage',
                     component:EvailManage
                 },
+                //权限管理
+                {
+                    path:'/Root',
+                    name:'Root',
+                    component: Root
+
+                },
 
             ]
-        }
+        },
+        //登录页
+        {
+            path:'/',
+            name:'Login',
+            component: Login
+
+        },
+        //忘记密码
+        {
+            path:'/NoPass',
+            name:'NoPass',
+            component: NoPass
+
+        },
+
     ]
 })
