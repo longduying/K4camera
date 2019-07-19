@@ -4,12 +4,12 @@ import Index from './views/Index'
 import Login from './views/Login'
 import NoPass from './views/NoPass'
 import Root from './views/Root'
+
 import OrderManage from './components/OrderManage'
 import OrderRef from './components/OrderRef'
 import EvailManage from './components/EvailManage'
 
 // 订单列表的子路由
-import Dall from './components/OrderManage/Dall'                          //全部订单
 import OrderDetails from './components/OrderManage/OrderDetails'         //订单详情
 import DeliverGoods from './components/OrderManage/DeliverGoods'         //发货
     Vue.use(Router)
@@ -25,16 +25,8 @@ export default new Router({
             children:[
                 {
                     path:'/OrderManage',      //订单管理
-                    redirect:'/Dall',
                     name:'OrderManage',
                     component:OrderManage,
-                    children:[
-                        {
-                            path:'/Dall',      //全部订单
-                            name:'Dall',
-                            component:Dall,
-                        }
-                    ],
                 },
                 {
                     path:'/OrderDetails',    //全部订单里的订单详情
