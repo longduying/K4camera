@@ -3,17 +3,16 @@ import Router from 'vue-router'
 import Index from './views/Index'
 import Login from './views/Login'
 import NoPass from './views/NoPass'
-import RootBox from './views/RootBox'
-import NewUser from './views/NewUser'
+import Root from './views/Root'
+
 import OrderManage from './components/OrderManage'
 import OrderRef from './components/OrderRef'
 import EvailManage from './components/EvailManage'
 
 // 订单列表的子路由
-import Dall from './components/OrderManage/Dall'                          //全部订单
 import OrderDetails from './components/OrderManage/OrderDetails'         //订单详情
 import DeliverGoods from './components/OrderManage/DeliverGoods'         //发货
-    Vue.use(Router);
+    Vue.use(Router)
 
 export default new Router({
     mode: 'history',
@@ -26,16 +25,8 @@ export default new Router({
             children:[
                 {
                     path:'/OrderManage',      //订单管理
-                    redirect:'/Dall',
                     name:'OrderManage',
                     component:OrderManage,
-                    children:[
-                        {
-                            path:'/Dall',      //全部订单
-                            name:'Dall',
-                            component:Dall,
-                        }
-                    ],
                 },
                 {
                     path:'/OrderDetails',    //全部订单里的订单详情
@@ -60,15 +51,10 @@ export default new Router({
                 },
                 //权限管理
                 {
-                    path:'/RootBox',
-                    name:'RootBox',
-                    component: RootBox
-                },
-                //新增人员
-                {
-                    path:'/NewUser',
-                    name:'NewUser',
-                    component: NewUser
+                    path:'/Root',
+                    name:'Root',
+                    component: Root
+
                 },
 
             ]

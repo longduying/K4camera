@@ -1,15 +1,15 @@
 <template>
-    <div class="box"  >
-        <div class="left" :style="{'margin-top':scrollTop+'px'}">
+    <div class="box">
+        <div class="left" :style="{'height':H+'px','margin-top':scrollTop+'px'}" >
             <div><h1>logo</h1></div>
             <div>
-               <div style="margin-top: 30px">
-                        <span class="iconfont icon-gaikuang2" style="font-size: 14px"></span>
-                        概况
-                    </div>
+                <div style="margin-top: 30px">
+                    <span class="iconfont icon-gaikuang2" style="font-size: 14px"></span>
+                    概况
                 </div>
-                <div>
-                    <div @click="show1">
+            </div>
+            <div>
+                <div @click="show1">
                     <span class="iconfont icon-shangpin" style="font-size: 15px"></span>
                     商品管理
                 </div>
@@ -54,13 +54,12 @@
                 </ul>
             </div>
             <div>
-                <div @click="show6"><span class="iconfont icon-quanxianguanli" style="font-size: 20px"></span>员工管理</div>
+                <div @click="show6"><span class="iconfont icon-quanxianguanli" style="font-size: 20px"></span>权限管理</div>
                 <ul v-show="f">
-                    <router-link to="/RootBox" tag="li">人员信息</router-link>
-                    <router-link to="/NewUser" tag="li">人员新增</router-link>
+                    <router-link to="/Root" tag="li">权限管理</router-link>
                 </ul>
             </div>
-        </div >
+        </div>
         <div class="right">
             <div class="rightHead">
                 <span class="s1">相机管理后台</span>
@@ -75,10 +74,7 @@
 </template>
 
 <script>
-
-
-
-
+    import './../assets/D-font/iconfont.css'
     export default {
         name: "Index",
         data:function () {
@@ -141,6 +137,7 @@
             let h=document.documentElement.clientHeight;
             this.H=h;
             window.addEventListener('scroll', this.handleScroll)
+
         }
     }
 
@@ -159,9 +156,9 @@
     }
     .left{
         flex: 1.5;
+        /*position: fixed;*/
         background: #273043;
         color: #d4d6d9;
-        /*height: 650px;*/
         div div{
             height: 50px;
             line-height: 50px;
