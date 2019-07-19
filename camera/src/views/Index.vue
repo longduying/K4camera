@@ -54,9 +54,10 @@
                 </ul>
             </div>
             <div>
-                <div @click="show6"><span class="iconfont icon-quanxianguanli" style="font-size: 20px"></span>权限管理</div>
+                <div @click="show6"><span class="iconfont icon-quanxianguanli" style="font-size: 20px"></span>员工管理</div>
                 <ul v-show="f">
-                    <router-link to="/Root" tag="li">权限管理</router-link>
+                    <router-link to="/RootBox" tag="li">人员信息</router-link>
+                    <router-link to="/NewUser" tag="li">人员新增</router-link>
                 </ul>
             </div>
         </div>
