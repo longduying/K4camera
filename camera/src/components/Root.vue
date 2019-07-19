@@ -2,7 +2,7 @@
     <div class="root-boss">
         <!--标题-->
         <div class="root-head">
-            <span>权限管理</span>
+            <span>人员信息</span>
         </div>
         <div class="root-seo">
             综合搜索：<input type="text" placeholder="姓名、手机号或账号关键字">
@@ -39,7 +39,7 @@
                     <p class="root-user">LT0001</p>
                     <p class="root-state">正常</p>
                     <p class="root-btn">
-                        <span class="iconfont icon-iconset0137"></span>
+                        <span class="iconfont icon-iconset0137" @click="FnChangeRoot"></span>
                     </p>
                 </div>
                 <div class="root-content">
@@ -69,23 +69,45 @@
                         <span class="iconfont icon-iconset0137"></span>
                     </p>
                 </div>
+                <!--<div class="root-content">
+                    <p class="root-name">张文</p>
+                    <p class="root-phone">18109090040</p>
+                    <p class="root-user">LT0001</p>
+                    <p class="root-state">正常</p>
+                    <p class="root-btn">
+                        <span>
+                            <span class="iconfont icon-iconset0137"></span>
+                        </span>
+                    </p>
+                </div>
                 <div class="root-content">
                     <p class="root-name">张文</p>
                     <p class="root-phone">18109090040</p>
                     <p class="root-user">LT0001</p>
                     <p class="root-state">正常</p>
                     <p class="root-btn">
-                        <span class="iconfont icon-iconset0137"></span>
+                        <span>
+                            <span class="iconfont icon-iconset0137"></span>
+                        </span>
                     </p>
-                </div>
+                </div>-->
 
+
+            </div>
+            <div class="root-pages-box">
+                <el-pagination
+                        v-show="rootPagesShow"
+                        background
+                        layout="prev, pager, next"
+                        :total="50">
+                </el-pagination>
             </div>
         </div>
     </div>
 </template>
 
 <script>
-    import './../assets/E-font/iconfont.css'
+    //import '../assets/E-font/iconfont.css'
 
     export default {
         name: "Root",
@@ -93,12 +115,18 @@
             return {
                 //当前状态下拉框的显示隐藏
                 rootNavState:false,
+                //分页的显示隐藏
+                rootPagesShow:true
             }
         },
         methods:{
-            //状态点击
+            //状态点击下拉框的显示隐藏
             navShow(){
                 this.rootNavState=!this.rootNavState;
+            },
+            //编辑按钮被点击
+            FnChangeRoot(){
+                this.$parent.rootShowWho='ChangeRoot';
             }
         }
     }
@@ -160,7 +188,7 @@
     //主体部分
     .root-box{
         width: 96%;
-        min-height: 450px;
+        min-height: 415px;
         margin-left: 2%;
         margin-top: 15px;
         border: #eeeeee solid 1px ;
@@ -216,6 +244,7 @@
     //内容显示区
     .root-body{
         margin-top: 20px;
+        height: 305px;
     }
 
     //列表显示主体
@@ -242,7 +271,22 @@
         >.root-btn{
             width: 19%;
             margin-left: 1%;
+            font-weight: bold;
+            >span:hover{
+                cursor:pointer;
+            }
         }
+    }
+
+    //分页
+    .root-pages-box{
+        text-align: center;
+        height: 30px;
+        margin-top: 16px;
+
+
+
+
     }
 
 </style>
