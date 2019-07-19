@@ -56,6 +56,7 @@
 
 <script>
     //import './../assets/E-font/iconfont.css'
+    import './../assets/E-font/iconfont.css'
 
     import ChangePass from './../components/ChangePass'
     import Alert from './../components/Alert'

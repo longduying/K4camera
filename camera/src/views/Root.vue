@@ -85,6 +85,8 @@
 </template>
 
 <script>
+    import './../assets/E-font/iconfont.css'
+
     export default {
         name: "Root",
         data:function () {
