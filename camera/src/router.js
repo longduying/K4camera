@@ -32,6 +32,18 @@ export default new Router({
                     component:EvailManage
                 },
 
+                //露露
+                // {
+                //   path:'/',
+                //   name:'Cindex',
+                //   component:Cindex
+                // },
+                // {
+                //   path: '/',
+                //   name: 'Cfinance',
+                //   component:Cfinance
+                // }
+
             ]
         }
     ]
