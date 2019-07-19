@@ -1,10 +1,10 @@
 <template>
-    <div class="ABoss">
+    <div class="ABoss" v-show="showAlert">
         <div class="ABox">
             <div class="AHead">
                 <p>{{AlertHead}}</p>
             </div >
-            <div class="ABody">{{AlertContent}}</div>
+            <div class="ABody" v-html="AlertContent"></div>
             <div class="ABtn">
                 <button @click=" showOver">确定</button>
             </div>
@@ -17,16 +17,19 @@
 -1、需要在父级组件数据层添加名为‘AlertNum’的数据名；
 -2、数据类型为number，且默认值为0；
 -3、当弹框的确认按钮被点击时，会将AlertNum的值改为1；
--4、在组件内无论点击何种按钮，弹框都将不会被隐藏；
+-4、控制组件的‘showAlert’用以显示或隐藏；
 -5、提供‘AlertHead’用以改变弹框标题；
 -6、提供‘AlertContent’用以改变弹框提示内容；
 -->
 
 <script>
+
+
     export default {
         name: "Alert",
         data:function () {
             return {
+                showAlert:false,
                 AlertHead:'提示',
                 AlertContent:'提示内容，最长字符数不得超过42个字，否则多余的将被隐！'
             }
@@ -34,6 +37,7 @@
         methods:{
             showOver(){
                 this.$parent.AlertNum=1;
+                this.showAlert=false;
             }
         }
 
@@ -48,6 +52,7 @@
         width: 100%;
         height: 100%;
         background: rgba(0,0,0,0.3);
+        z-index: 99999;
     }
     .ABox{
         margin: 180px auto;
@@ -63,7 +68,6 @@
         border-bottom: 1px solid black;
         height: 30px;
         font-size: 20px;
-        font-weight: bold;
     }
     .ABody{
         padding-top: 13px;

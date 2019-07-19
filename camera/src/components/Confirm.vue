@@ -1,13 +1,13 @@
 <template>
-    <div class="ZCBoss">
+    <div class="ZCBoss" v-show="showConfirm">
         <div class="ZCBox">
             <div class="ZCHead">
                 <p>{{ConfirmHead}}</p>
             </div >
             <div class="ZCBody">{{ConfirmContent}}</div>
             <div class="ZCBtn">
-                <button class="ZCBtnNo">取消</button>
-                <button class="ZCBtnYes">确定</button>
+                <button class="ZCBtnNo" @click="clickNo">取消</button>
+                <button class="ZCBtnYes" @click="clickYes">确定</button>
             </div>
         </div>
     </div>
@@ -18,7 +18,7 @@
 1、需要在父级组件数据层添加名为‘ConfirmNum’的数据名，数据类型为number，且默认值为0;
 2、当点击确定按钮时，会将ConfirmNum的值改为1；
 3、当点击取消按钮时，会将ConfirmNum的值改为2；
-4、在组件内无论点击何种按钮，弹框均不会隐藏；
+4、控制‘showConfirm’以更改弹框的显示隐藏；
 5、提供‘ConfirmHead’用以改变弹框的标题名称；
 6、提供‘ConfirmContent’用以改变弹框的提示内容；
 -->
@@ -29,15 +29,18 @@
         data:function () {
             return {
                 ConfirmHead:'标题',
-                ConfirmContent:'提示内容，最长字符数不得超过63个字，否则多余的将被隐！'
+                ConfirmContent:'提示内容，最长字符数不得超过63个字，否则多余的将被隐！',
+                showConfirm:false
             }
         },
         methods:{
             clickYes(){
                 this.$parent.ConfirmNum=1;
+                this.showConfirm=false;
             },
             clickNo(){
                 this.$parent.ConfirmNum=2;
+                this.showConfirm=false;
             }
 
         }
@@ -52,6 +55,7 @@
         width: 100%;
         height: 100%;
         background: rgba(0,0,0,0.3);
+        z-index:99999;
     }
     .ZCBox{
         margin: 180px auto;
@@ -67,7 +71,6 @@
         border-bottom: 1px solid black;
         height: 30px;
         font-size: 20px;
-        font-weight: bold;
     }
     .ZCBody{
         padding-top: 13px;
