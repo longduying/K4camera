@@ -55,7 +55,7 @@
 </template>
 
 <script>
-
+    //import './../assets/E-font/iconfont.css'
 
     import ChangePass from './../components/ChangePass'
     import Alert from './../components/Alert'
@@ -185,7 +185,7 @@
 
 
     .boss{
-        background: url("./../../public/timg (1).jpg")no-repeat;
+        background: url("./../../public/timg (1).jpg") no-repeat;
         width: 100%;
         height: 100%;
         position: absolute;

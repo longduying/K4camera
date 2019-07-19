@@ -1,5 +1,5 @@
 <template>
-    <div class="box">
+    <div class="box" :style="{'height':H+'px'}" >
         <div class="left">
             <div><h1>logo</h1></div>
             <div>
@@ -56,7 +56,7 @@
             <div>
                 <div @click="show6"><span class="iconfont icon-quanxianguanli" style="font-size: 20px"></span>权限管理</div>
                 <ul v-show="f">
-                    <li>权限管理</li>
+                    <router-link to="/Root" tag="li">权限管理</router-link>
                 </ul>
             </div>
         </div>
@@ -74,6 +74,10 @@
 </template>
 
 <script>
+
+
+
+
     export default {
         name: "Index",
         data:function () {
@@ -85,36 +89,56 @@
                 e:false,
                 f:false,
                 g:false,
-                tab:''
+                tab:'',
+                H:0,
             }
         },
         methods:{
-            show(){
-
+            show(who){
+                let a=this[who];
+                this.a=false;
+                this.b=false;
+                this.c=false;
+                this.d=false;
+                this.e=false;
+                this.f=false;
+                this.g=false;
+                if (a){
+                    return
+                } else {
+                    this[who]=true;
+                }
             },
             show1(){
-                this.a=!this.a
+                this.show('a')
             },
             show2(){
-                this.b=!this.b
+                this.show('b')
             },
             show3(){
-                this.c=!this.c
+                this.show('c')
             },
             show4(){
-                this.d=!this.d
+                this.show('d')
             },
             show5(){
-                this.e=!this.e
+                this.show('e')
             },
             show6(){
-                this.f=!this.f
+                this.show('f')
             },
             show7(){
-                this.g=!this.g
-            }
+                this.show('g')
+            },
+
+        },
+        mounted(){
+            let h=document.documentElement.clientHeight;
+            this.H=h;
+
         }
     }
+
 </script>
 
 <style scoped lang="less">
@@ -125,6 +149,8 @@
     }
     .box{
         display: flex;
+        min-height: 562px;
+
     }
     .left{
         flex: 1.5;
@@ -159,7 +185,7 @@
         }
         .rightMain{
             width: 96%;
-            /*height: 580px;*/
+            min-height: 568px;
             background: white;
             margin-left: 2%;
             margin-top: 2%;
