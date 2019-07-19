@@ -3,7 +3,7 @@ import Router from 'vue-router'
 import Index from './views/Index'
 import Login from './views/Login'
 import NoPass from './views/NoPass'
-import Root from './views/Root'
+import Root from './views/RootBox'
 
 import OrderManage from './components/OrderManage'
 import OrderRef from './components/OrderRef'

@@ -156,6 +156,7 @@
     }
     .left{
         flex: 1.5;
+        min-width: 200px;
         /*position: fixed;*/
         background: #273043;
         color: #d4d6d9;
@@ -180,6 +181,7 @@
     .right{
         flex: 8.5;
         background: gainsboro;
+        min-width: 1100px;
         .rightHead{
             height: 60px;
             background: white;
