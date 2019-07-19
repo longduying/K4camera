@@ -1,15 +1,9 @@
 <template>
     <div class="orderManage">
-        <div class="Dhead">订单列表</div>
+        <div class="Dhead">订单管理</div>
         <div class="Dmain">
             <div class="Dnav">
-                <router-link to="Dall" tag="span">全部</router-link>|
-                <router-link to="Dpay" tag="span">待付款</router-link>   |
-                <router-link to="Dsend" tag="span">待发货</router-link>   |
-                <router-link to="Dready" tag="span">已发货</router-link>   |
-                <router-link to="Dcomplete" tag="span">已完成</router-link>   |
-                <router-link to="Dclose" tag="span">已关闭</router-link>   |
-                <router-link to="Drefund" tag="span">退款中</router-link>
+                <span :class="{active:tag==v.com}" @click="dshow(i)" v-for="(v,i) in list">{{v.name}}</span>
             </div>
             <div style="margin-top: 20px;padding-bottom: 25px;font-size: 15px;">
                 <label style="margin-left: 10px">下单时间：</label>
@@ -18,11 +12,12 @@
                 <input type="text" placeholder="请输入订单编号">
                 <label style="margin-left: 10px"></label>
                 <input type="text" placeholder="请输入商品关键字">
-
                 <div class="Dsearch">搜索</div>
             </div>
             <div>
-                <router-view></router-view>
+                <keep-alive>
+                    <component :is="tag"></component>
+                </keep-alive>
             </div>
             <div style="margin-top: 20px;padding-left: 1%">
                 <input type="checkbox" style="width: 14px;height: 14px;margin-right: 5px">全选
@@ -31,19 +26,49 @@
                     分页
                 </span>
             </div>
+            <aaa></aaa>
         </div>
     </div>
 </template>
 
 <script>
+    import Dall from './OrderManage/Dall'
+    import Dpay from './OrderManage/Dpay'
+    import Dsend from './OrderManage/Dsend'
+    import Dready from './OrderManage/Dready'
+    import Dcomplete from './OrderManage/Dcomplete'
+    import Dclose from './OrderManage/Dclose'
+    import Drefund from './OrderManage/Drefund'
     export default {
         name: "OrderManage",
+        data:function () {
+            return {
+                list:[
+                    {name:"全部",com:"Dall"},{name:"待付款",com:"Dpay"},{name:"待发货",com:"Dsend"},{name:"已发货",com:"Dready"},{name:"已完成",com:"Dcomplete"},{name:"已关闭",com:"Dclose"},{name:"退款中",com:"Drefund"}
+                ],
+                tag:Dall,
+                value: ''
+            }
+        },
+        components:{
+            Dall,
+            Dpay,
+            Dsend,
+            Dready,
+            Dcomplete,
+            Dclose,
+            Drefund
+        },
+        methods:{
+            dshow(index){
+                this.tag=this.list[index].com;
+            }
+        },
 
     }
 </script>
 
 <style scoped lang="less">
-
  .Dhead{
      height: 50px;
      background: white;
@@ -81,11 +106,11 @@
         span{
             display: inline-block;
             width: 60px;
-            height: 30px;
+            height: 17px;
+            line-height: 17px;
             cursor: default;
-            line-height: 37px;
             text-align: center;
-            /*background: gainsboro;*/
+            border-right: 1px solid gray;
         }
     }
     .router-link-active{
@@ -104,4 +129,18 @@
         font-size: 15px;
         margin-left: 10px;
     }
+    .active{
+        color: #31b0d5;
+    }
+    .block{
+        display: inline-block;
+        width: 230px;
+    }
+ /*.el-input__inner{*/
+     /*height: 31px;*/
+     /*line-height: 31px;*/
+ /*}*/
+ /*.el-date-editor--daterange.el-input, .el-date-editor--daterange.el-input__inner, .el-date-editor--timerange.el-input, .el-date-editor--timerange.el-input__inner{*/
+     /*width: 232px;*/
+ /*}*/
 </style>

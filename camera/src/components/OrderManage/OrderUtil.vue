@@ -1,29 +1,29 @@
 <template>
     <div>
         <div class="Dhead">
-            <span style="width: 390px;margin-left: 50px">商品信息</span>
-            <span style="width: 140px">单价</span>
-            <span style="width: 140px">数量</span>
-            <span style="width: 140px">商品总价</span>
+            <span style="width: 39%;margin-left: 5%">商品信息</span>
+            <span style="width: 14%">单价</span>
+            <span style="width: 14%">数量</span>
+            <span style="width: 14%">商品总价</span>
         </div>
         <div class="dcon">
             <div style="border-bottom: 1px solid gainsboro">
-                <img src="./../../assets/D-img/d1.png" style="margin-left: 55px;vertical-align: middle;height: 80px">
-                <span style="width: 265px;margin-left: 30px;">
+                <img src="./../../assets/D-img/d1.png" style="margin-left: 5%;vertical-align: middle;height: 80px">
+                <span style="width: 27%;margin-left: 3%;">
                             五星红旗迎风飘扬，胜利歌
                         </span>
-                <span style="width: 168px;margin-left: 47px;">160000.00</span>
-                <span style="width: 108px;">1</span>
-                <span style="width: 142px;">160000.00</span>
+                <span style="width: 17.2%;margin-left: 47px;">160000.00</span>
+                <span style="width: 11%;">1</span>
+                <span style="width: 14%;">160000.00</span>
             </div>
-            <div>
-                <img src="./../../assets/D-img/d1.png" alt="" style="margin-left: 55px;vertical-align: middle;height: 80px">
-                <span style="width: 265px;margin-left: 30px;">
+            <div style="border-bottom: 1px solid gainsboro">
+                <img src="./../../assets/D-img/d1.png" style="margin-left: 5%;vertical-align: middle;height: 80px">
+                <span style="width: 27%;margin-left: 3%;">
                             五星红旗迎风飘扬，胜利歌
                         </span>
-                <span style="width: 168px;margin-left: 47px;">160000.00</span>
-                <span style="width: 108px;">1</span>
-                <span style="width: 142px;">160000.00</span>
+                <span style="width: 17.2%;margin-left: 47px;">160000.00</span>
+                <span style="width: 11%;">1</span>
+                <span style="width: 14%;">160000.00</span>
             </div>
         </div>
         <div style="font-size: 15px;margin-top: 20px;margin-left: 75%;margin-bottom: 30px">

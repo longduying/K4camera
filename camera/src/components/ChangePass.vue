@@ -76,7 +76,7 @@
 </template>
 
 <script>
-
+    import './../assets/E-font/iconfont.css'
 
 
     export default {

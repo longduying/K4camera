@@ -47,12 +47,12 @@
         data:function () {
             return {
                 tab:LogisticInformation,
-                n:2
+                n:1
             }
         },
         methods:{
             show(){
-                // this.n=0;
+                //
                 this.tab=DetailsOfSmall;
                 this.$refs.btn1.style.position='absolute';
                 this.$refs.btn1.style.top=305+'px';
@@ -64,7 +64,7 @@
                 this.$refs.btn2.style.color='black';
             },
             show2(){
-                // this.n=0;
+                // this.n=1;
                 this.tab=LogisticInformation;
                 this.$refs.btn2.style.background='#31b0d5 ';
                 this.$refs.btn2.style.color='white';

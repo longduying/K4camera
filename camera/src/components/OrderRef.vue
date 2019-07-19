@@ -5,15 +5,22 @@
             <div style="margin-top: 20px;padding-bottom: 25px;font-size: 15px;">
                 <label style="margin-left: 10px">下单时间：</label>
                 <input type="date">
-                <label style="margin-left: 255px">退款方式：</label>
-                <input type="text" placeholder="请输入订单编号">
+                <label style="margin-left: 25%">退款方式：</label>
+                <div class="xiala">
+                    <span style="width: 105px;font-size: 14px;padding-left: 5px">全部</span>
+                    <span class="iconfont icon-xiala-"></span>
+                </div>
                 <label style="margin-left: 35px">退款状态：</label>
-                <input type="text" placeholder="请输入商品关键字">
+                <div class="xiala">
+                    <span style="width: 105px;font-size: 14px;padding-left: 5px">全部</span>
+                    <span class="iconfont icon-xiala-"></span>
+                </div>
+
                 <div class="Dsearch">搜索</div>
             </div>
             <div class="dhead">
-                <div style="margin-left: 4%;width: 60px">退款编号</div>
-                <div style="width: 244px;text-align: center">订单号/商品</div>
+                <div style="margin-left: 4%;width: 6%">退款编号</div>
+                <div style="width: 24%;text-align: center">订单号/商品</div>
                 <span>订单金额</span>
                 <span>退款金额</span>
                 <span>发货状态</span>
@@ -24,38 +31,112 @@
                 <div>操作</div>
             </div>
             <div class="OrderList">
-                <div>
+                <div style="border-bottom: 1px solid gainsboro">
                     <input type="checkbox" style="margin-left: 10px">
                     <span style="margin-left: 10px">717152411</span>
-                    <div style="display: inline-block;vertical-align: middle;margin-left: 10px;width: 230px;text-align: center;margin-right: 10px">
-                        <p style="margin-top: 10px">订单号:20170718183811</p>
+                    <div style="display: inline-block;vertical-align: middle;margin-left: 2%;width: 22%;text-align: center;margin-right: 1%;padding-bottom: 10px">
+                        <p style="margin-top: 20px">订单号:20170718183811</p>
                         <img src="./../assets/D-img/d1.png" style="vertical-align: middle">
                         <span style="margin-left: 10px;">
                             五星红旗迎风飘扬,胜利歌
                         </span>
                     </div>
-                    <span style="width: 89px;">160000.00</span>
-                    <span style="width: 95px;">160000.00</span>
-                    <span style="width: 85px;">已发货</span>
-                    <span style="width: 88px;">退货退款</span>
-                    <span style="width: 83px;">不喜欢</span>
-                    <span style="width: 93px;">2019-07-18</span>
-                    <span style="width: 66px;">待处理</span>
+                    <span style="width: 8.5%;">160000.00</span>
+                    <span style="width: 9.3%;">160000.00</span>
+                    <span style="width: 8%;">已发货</span>
+                    <span style="width: 9%;">退货退款</span>
+                    <span style="width: 7%;">不喜欢</span>
+                    <span style="width: 9.8%;">2019-07-18</span>
+                    <span style="width: 6.3%;">待处理</span>
                     <span style="margin-right: 5px" class="agree">同意</span>
                     <span class="refuse">拒绝</span>
                 </div>
+                <div style="border-bottom: 1px solid gainsboro">
+                    <input type="checkbox" style="margin-left: 10px">
+                    <span style="margin-left: 10px">717152411</span>
+                    <div style="display: inline-block;vertical-align: middle;margin-left: 2%;width: 22%;text-align: center;margin-right: 1%;padding-bottom: 10px">
+                        <p style="margin-top: 20px">订单号:20170718183811</p>
+                        <img src="./../assets/D-img/d1.png" style="vertical-align: middle">
+                        <span style="margin-left: 10px;">
+                            五星红旗迎风飘扬,胜利歌
+                        </span>
+                    </div>
+                    <span style="width: 8.5%;">160000.00</span>
+                    <span style="width: 9.3%;">160000.00</span>
+                    <span style="width: 8%;">已发货</span>
+                    <span style="width: 9%;">退货退款</span>
+                    <span style="width: 7%;">不喜欢</span>
+                    <span style="width: 9.8%;">2019-07-18</span>
+                    <span style="width: 6.3%;">待处理</span>
+                    <span style="margin-right: 5px" class="agree">同意</span>
+                    <span class="refuse">拒绝</span>
+                </div>
+                <div style="border-bottom: 1px solid gainsboro">
+                    <input type="checkbox" style="margin-left: 10px">
+                    <span style="margin-left: 10px">717152411</span>
+                    <div style="display: inline-block;vertical-align: middle;margin-left: 2%;width: 22%;text-align: center;margin-right: 1%;padding-bottom: 10px">
+                        <p style="margin-top: 20px">订单号:20170718183811</p>
+                        <img src="./../assets/D-img/d1.png" style="vertical-align: middle">
+                        <span style="margin-left: 10px;">
+                            五星红旗迎风飘扬,胜利歌
+                        </span>
+                    </div>
+                    <span style="width: 8.5%;">160000.00</span>
+                    <span style="width: 9.3%;">160000.00</span>
+                    <span style="width: 8%;">已发货</span>
+                    <span style="width: 9%;">退货退款</span>
+                    <span style="width: 7%;">不喜欢</span>
+                    <span style="width: 9.8%;">2019-07-18</span>
+                    <span style="width: 6.3%;">待处理</span>
+                    <span style="margin-right: 5px" class="agree">同意</span>
+                    <span class="refuse">拒绝</span>
+                </div>
+                <div style="border-bottom: 1px solid gainsboro">
+                    <input type="checkbox" style="margin-left: 10px">
+                    <span style="margin-left: 10px">717152411</span>
+                    <div style="display: inline-block;vertical-align: middle;margin-left: 2%;width: 22%;text-align: center;margin-right: 1%;padding-bottom: 10px">
+                        <p style="margin-top: 20px">订单号:20170718183811</p>
+                        <img src="./../assets/D-img/d1.png" style="vertical-align: middle">
+                        <span style="margin-left: 10px;">
+                            五星红旗迎风飘扬,胜利歌
+                        </span>
+                    </div>
+                    <span style="width: 8.5%;">160000.00</span>
+                    <span style="width: 9.3%;">160000.00</span>
+                    <span style="width: 8%;">已发货</span>
+                    <span style="width: 9%;">退货退款</span>
+                    <span style="width: 7%;">不喜欢</span>
+                    <span style="width: 9.8%;">2019-07-18</span>
+                    <span style="width: 6.3%;">待处理</span>
+                    <span style="margin-right: 5px" class="agree">同意</span>
+                    <span class="refuse">拒绝</span>
+                </div>
+            </div>
+            <div style="margin-top: 30px;padding-left: 1%;padding-bottom: 20px">
+                <input type="checkbox" style="width: 14px;height: 14px;margin-right: 5px">全选
+                <button class="batch">批量同意</button>
+                <button class="batch">批量拒绝</button>
+                <span style="margin-left:200px ">
+                    分页
+                </span>
             </div>
         </div>
     </div>
 </template>
 
 <script>
+    import './../assets/D-font1/iconfont.css'
     export default {
-        name: "OrderRef"
+        name: "OrderRef",
+        data:function () {
+            return {
+            }
+        }
     }
 </script>
 
 <style scoped lang="less">
+
     .Dhead{
         height: 50px;
         background: white;
@@ -65,10 +146,6 @@
     }
     .Dmain{
         padding-left: 3%;
-        input{
-        width: 140px;
-        height: 21px;
-    }
     .Dsearch{
         display: inline-block;
         width: 65px;
@@ -85,7 +162,7 @@
     }
     .dhead{
         margin-top: 10px;
-        width: 96.2%;
+        width: 96.8%;
         height: 40px;
         line-height:40px;
         font-size: 14px;
@@ -96,11 +173,11 @@
         }
         span{
             display: inline-block;
-            width: 87px;
+            width: 8.4%;
         }
     }
     .OrderList{
-        width: 96%;
+        width: 96.6%;
         border-left: 1px solid gainsboro;
         border-bottom: 1px solid gainsboro;
         border-right: 1px solid gainsboro;
@@ -120,5 +197,25 @@
     }
     .agree,.refuse{
         color: #31b0d5;
+        cursor: default;
+    }
+    .xiala{
+        display: inline-block;
+        width: 133px;
+        height: 21px;
+        border: 1px solid gray;
+        span{
+            display: inline-block;
+        }
+    }
+    .batch{
+        border: none;
+        width: 80px;
+        height: 28px;
+        border-radius: 3px;
+        background: gainsboro;
+        /*color: #31b0d5;*/
+        font-size: 14px;
+        margin-left: 10px;
     }
 </style>

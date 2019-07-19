@@ -29,6 +29,7 @@
             },
             show(){
                 this.$refs.nodeMask.style.display='block'
+                this.$refs.nodeMask.style.zIndex=99
             }
         }
     }

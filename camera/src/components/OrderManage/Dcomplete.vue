@@ -84,12 +84,7 @@
 
 <script>
     export default {
-        name: "Dall",
-        // methods:{
-        //     jump(){
-        //         this.$.router.push('OrderDetails')
-        //     }
-        // }
+        name: "Dcomplete"
     }
 </script>
 
@@ -104,6 +99,7 @@
         span{
             display: inline-block;
             text-align: center;
+
         }
     }
     .dhead{
@@ -144,7 +140,7 @@
         cursor: default;
     }
     .OrderDetails{
-      color: #31b0d5;
+        color: #31b0d5;
         margin-left: 7px;
         cursor: pointer;
     }

@@ -57,6 +57,7 @@
 </template>
 
 <script>
+    import './../../assets/D-font1/iconfont.css'
     export default {
         name: "ReceiveAddress",
         data:function(){
@@ -73,6 +74,7 @@
             },
             show(){
                 this.$refs.hiden.style.display='block'
+                this.$refs.hiden.style.zIndex=99
             }
         }
 
