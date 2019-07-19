@@ -45,7 +45,7 @@
                     </div>
                     <div style="margin-bottom: 20px">
                         <button class="sure">确定</button>
-                        <button class="cancel">取消</button>
+                        <button class="cancel" @click="hid">取消</button>
                     </div>
                 </div>
             </div>
@@ -64,11 +64,16 @@
                 msg:"天气不好"
             }
         },
+        mounted(){
+            this.$refs.hiden.style.display='none'
+        },
         methods:{
             hid(){
                 this.$refs.hiden.style.display='none'
+            },
+            show(){
+                this.$refs.hiden.style.display='block'
             }
-
         }
 
     }
@@ -100,10 +105,11 @@
         border-bottom: 1px solid gainsboro;
         border-right: 1px solid gainsboro;
         background: white;
+        border-radius: 0 0 5px 5px;
     }
     .dbox{
         width: 94%;
-        margin-left: 2.5%;
+        margin-left: 3%;
         padding-top: 20px;
     }
     .s1{

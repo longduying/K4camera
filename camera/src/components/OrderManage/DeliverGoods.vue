@@ -18,18 +18,27 @@
             <div style="font-size: 15px;margin-top: 15px">
                 收货地址：<span>张三，17313214094，四川省成都市高新区国信安</span>
             </div>
-            <div class="edtAddress">修改收货地址</div>
+            <div class="edtAddress" @click="address">修改收货地址</div>
             <div class="sendGoods">发货</div>
+            <div style="padding-bottom: 10px"></div>
         </div>
+        <ReceiveAddress></ReceiveAddress>
     </div>
 </template>
 
 <script>
     import OrderUtil from './OrderUtil'
+    import ReceiveAddress from './ReceiveAddress'
     export default {
         name: "DeliverGoods",
         components:{
-            OrderUtil
+            OrderUtil,
+            ReceiveAddress
+        },
+        methods:{
+           address(){
+               this.$children[1].show()
+           }
         }
     }
 </script>

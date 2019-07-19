@@ -42,7 +42,7 @@
 <style scoped lang="less">
     .Dhead{
         margin-top: 20px;
-        width: 96.2%;
+        width: 97%;
         height: 40px;
         line-height:40px;
         font-size: 14px;
@@ -54,7 +54,7 @@
     }
     }
     .dcon{
-        width: 96%;
+        width: 96.8%;
         border-left: 1px solid gainsboro;
         border-bottom: 1px solid gainsboro;
         border-right: 1px solid gainsboro;

@@ -31,8 +31,6 @@
                         <span style="width: 142px;">160000.00</span>
                         <div style="display: inline-block">
                             <router-link to="OrderDetails" tag="span" class="OrderDetails">详情</router-link>
-                            <!--<span></span>-->
-                            <!--<p class="delive">发货</p>-->
                         </div>
                     </div>
                     <div>
