@@ -1,6 +1,6 @@
 <template>
     <div class="box">
-        <div class="left">
+        <div class="left" :style="{'height':H+'px','margin-top':scrollTop+'px'}" >
             <div><h1>logo</h1></div>
             <div>
                 <div style="margin-top: 30px">
@@ -54,9 +54,10 @@
                 </ul>
             </div>
             <div>
-                <div @click="show6"><span class="iconfont icon-quanxianguanli" style="font-size: 20px"></span>权限管理</div>
+                <div @click="show6"><span class="iconfont icon-quanxianguanli" style="font-size: 20px"></span>员工管理</div>
                 <ul v-show="f">
-                    <li>权限管理</li>
+                    <router-link to="/RootBox" tag="li">人员信息</router-link>
+                    <router-link to="/NewUser" tag="li">人员新增</router-link>
                 </ul>
             </div>
         </div>
@@ -74,6 +75,7 @@
 </template>
 
 <script>
+    import './../assets/D-font/iconfont.css'
     export default {
         name: "Index",
         data:function () {
@@ -85,32 +87,61 @@
                 e:false,
                 f:false,
                 g:false,
+                tab:'',
+                H:0,
+                scrollTop:0
             }
         },
         methods:{
+            show(who){
+                let a=this[who];
+                this.a=false;
+                this.b=false;
+                this.c=false;
+                this.d=false;
+                this.e=false;
+                this.f=false;
+                this.g=false;
+                if (a){
+                    return
+                } else {
+                    this[who]=true;
+                }
+            },
             show1(){
-                this.a=!this.a
+                this.show('a')
             },
             show2(){
-                this.b=!this.b
+                this.show('b')
             },
             show3(){
-                this.c=!this.c
+                this.show('c')
             },
             show4(){
-                this.d=!this.d
+                this.show('d')
             },
             show5(){
-                this.e=!this.e
+                this.show('e')
             },
             show6(){
-                this.f=!this.f
+                this.show('f')
             },
             show7(){
-                this.g=!this.g
-            }
+                this.show('g')
+            },
+            handleScroll () {
+                this.scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
+            },
+
+        },
+        mounted(){
+            let h=document.documentElement.clientHeight;
+            this.H=h;
+            window.addEventListener('scroll', this.handleScroll)
+
         }
     }
+
 </script>
 
 <style scoped lang="less">
@@ -121,12 +152,15 @@
     }
     .box{
         display: flex;
+        min-height: 562px;
+
     }
     .left{
         flex: 1.5;
+        min-width: 200px;
+        /*position: fixed;*/
         background: #273043;
         color: #d4d6d9;
-        height: 650px;
         div div{
             height: 50px;
             line-height: 50px;
@@ -148,6 +182,7 @@
     .right{
         flex: 8.5;
         background: gainsboro;
+        min-width: 1100px;
         .rightHead{
             height: 60px;
             background: white;
@@ -155,7 +190,7 @@
         }
         .rightMain{
             width: 96%;
-            height: 580px;
+            min-height: 568px;
             background: white;
             margin-left: 2%;
             margin-top: 2%;
