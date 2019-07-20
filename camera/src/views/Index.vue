@@ -50,7 +50,7 @@
             <div>
                 <div @click="show5"><span class="iconfont icon-shouhou" style="font-size: 18px"></span>售后管理</div>
                 <ul v-show="e">
-                    <li>售后管理</li>
+                    <router-link to="/StateBox" tag="li">售后管理</router-link>
                 </ul>
             </div>
             <div>

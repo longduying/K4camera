@@ -69,31 +69,10 @@
                         <span class="iconfont icon-iconset0137"></span>
                     </p>
                 </div>
-                <!--<div class="root-content">
-                    <p class="root-name">张文</p>
-                    <p class="root-phone">18109090040</p>
-                    <p class="root-user">LT0001</p>
-                    <p class="root-state">正常</p>
-                    <p class="root-btn">
-                        <span>
-                            <span class="iconfont icon-iconset0137"></span>
-                        </span>
-                    </p>
-                </div>
-                <div class="root-content">
-                    <p class="root-name">张文</p>
-                    <p class="root-phone">18109090040</p>
-                    <p class="root-user">LT0001</p>
-                    <p class="root-state">正常</p>
-                    <p class="root-btn">
-                        <span>
-                            <span class="iconfont icon-iconset0137"></span>
-                        </span>
-                    </p>
-                </div>-->
-
 
             </div>
+
+            <!--分页-->
             <div class="root-pages-box">
                 <el-pagination
                         v-show="rootPagesShow"
@@ -107,7 +86,7 @@
 </template>
 
 <script>
-    //import '../assets/E-font/iconfont.css'
+
 
     export default {
         name: "Root",
