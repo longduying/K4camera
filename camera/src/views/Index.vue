@@ -14,7 +14,7 @@
                     商品管理
                 </div>
                 <ul v-show="a">
-                    <router-link to="addGoods" tag="li">添加商品</router-link>
+                    <router-link to="/NewShopping" tag="li">添加商品</router-link>
                     <router-link to="addGoods" tag="li">商品列表</router-link>
                     <router-link to="addGoods" tag="li">分类管理</router-link>
                 </ul>

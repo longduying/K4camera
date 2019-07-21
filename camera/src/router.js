@@ -9,6 +9,7 @@ import NoPass from './views/NoPass'
 import RootBox from './views/RootBox'
 import NewUser from './views/NewUser'
 import StateBox from './views/StateBox'
+import NewShopping from './views/NewShopping'
 
 
 import OrderManage from './components/OrderManage'
@@ -74,6 +75,13 @@ export default new Router({
                     name:'StateBox',
                     component: StateBox
                 },
+                //上架商品
+                {
+                    path:'/NewShopping',
+                    name:'NewShopping',
+                    component: NewShopping
+
+                },
 
             ]
         },
@@ -91,6 +99,7 @@ export default new Router({
             component: NoPass
 
         },
+
 
     ]
 })
