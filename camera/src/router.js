@@ -4,10 +4,12 @@ import Index from './views/Index'
 import Login from './views/Login'
 import NoPass from './views/NoPass'
 
-import Root from './views/Root'
+
 
 import RootBox from './views/RootBox'
 import NewUser from './views/NewUser'
+import StateBox from './views/StateBox'
+import NewShopping from './views/NewShopping'
 
 
 import OrderManage from './components/OrderManage'
@@ -67,6 +69,19 @@ export default new Router({
                     name:'NewUser',
                     component: NewUser
                 },
+                //售后管理
+                {
+                    path:'/StateBox',
+                    name:'StateBox',
+                    component: StateBox
+                },
+                //上架商品
+                {
+                    path:'/NewShopping',
+                    name:'NewShopping',
+                    component: NewShopping
+
+                },
 
                 //露露
                 // {
@@ -96,6 +111,7 @@ export default new Router({
             component: NoPass
 
         },
+
 
     ]
 })

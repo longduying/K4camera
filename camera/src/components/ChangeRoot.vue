@@ -1,20 +1,20 @@
 <template>
     <div class="root-boss">
         <!--标题-->
-        <div class="root-head" :data="AlertNum">
+        <div class="root-head">
             <span>资料修改</span>
             <button @click="rootChangeBack">返回</button>
         </div>
         <!--显示主体-->
-        <div class="root-box clearfix" :data="ConfirmNum">
+        <div class="root-box clearfix">
             <div class="clearfix">
                 <!--姓名-->
                 <div>
                     姓名：
                     <el-tooltip  effect="dark" content="2-6个中文" placement="right">
-                        <input type="text">
+                        <input type="text" v-model="Name" @blur="rootChangeName">
                     </el-tooltip>
-                    <span class="iconfont icon-cuo rootSpanNo" v-show="rootNameNo"></span>
+                    <span class="iconfont icon-cuo rootSpanNo" v-show="rootNameNo" ></span>
                     <span class="iconfont icon-dui rootSpanYes" v-show="rootNameYes"></span>
                 </div>
                 <!--性别-->
@@ -27,7 +27,7 @@
                 <div>
                     手机：
                     <el-tooltip  effect="dark" content="11位手机号" placement="right">
-                        <input type="text">
+                        <input type="text" v-model="Phone" @blur="rootChangePhone">
                     </el-tooltip>
                     <span class="iconfont icon-cuo rootSpanNo" v-show="rootPhoneNo"></span>
                     <span class="iconfont icon-dui rootSpanYes" v-show="rootPhoneYes"></span>
@@ -48,8 +48,8 @@
                     </el-dropdown>
                 </div>
                 <!--账号-->
-                <div @click="userAlertShow">
-                    账号：<input type="text" style="margin-left: 5px" disabled >
+                <div>
+                    账号：<span style="margin-left: 8px">QQ1234</span>
                 </div>
                 <!--密码-->
                 <div>
@@ -80,8 +80,6 @@
             </div>
 
         </div>
-        <Alert ref="rootChangeAlertName"></Alert>
-        <Confirm ref="rootChangeConfirmName"></Confirm>
 
 
     </div>
@@ -89,74 +87,110 @@
 </template>
 
 <script>
-    //引入alert弹框
-    import Alert from './../components/Alert';
-    import Confirm from './../components/Confirm';
-
-
 
     export default {
         name: "changeRoot",
         data:function () {
             return {
-                //当前状态
+                //姓名的正则
+                NameReg:/^[\u4e00-\u9fa5]{2,5}$/,
+                //手机号的正则
+                PhoneReg:/^1[345789]\d{9}$/,
+                //姓名
+                Name:'',
+                //手机号
+                Phone:'',
+                //状态
                 rootStateShow:'正常',
                 //性别选择
                 rootChangeSex:'男',
                 //权限选择框
-                rootCheckList:['概况','权限管理'],
+                rootCheckList:['概况'],
                 //用户名对错
                 rootNameYes:false,
                 rootNameNo:false,
                 //手机号对错
-                //用户名对错
                 rootPhoneYes:false,
                 rootPhoneNo:false,
-                //Alert弹框的返回值
-                AlertNum:0,
-                //ConfirmNum弹框的返回值
-                ConfirmNum:0
+
             }
         },
-        components:{
-            Alert,
-            Confirm
-        },
+
         methods:{
+            //非空验证及正则验证
+            rootChangRootReg(val,who){
+
+                let Y='root'+who+'Yes';
+                let N='root'+who+'No';
+                if (!val.trim()){
+                    this[N]=true;
+                    this[Y]=!this[N];
+                    return false;
+                }
+                if (this[who+'Reg'].test(val)) {
+                    this[N]=false;
+                    this[Y]=!this[N];
+                    return true;
+                }else {
+                    this[N]=true;
+                    this[Y]=!this[N];
+                    return false;
+                }
+            },
+
             //点击返回按钮
             rootChangeBack(){
                 this.$parent.rootShowWho='Root';
             },
-            //点击账号
-            userAlertShow(){
-                this.$refs.rootChangeAlertName.AlertContent='系统自动分配，禁止修改！';
-                this.$refs.rootChangeAlertName.showAlert=true;
-                this.AlertNum=0;
+
+            //姓名失去焦点
+            rootChangeName(){
+                return this.rootChangRootReg(this.Name,'Name')
             },
+
+            //手机号失去焦点
+            rootChangePhone(){
+                return this.rootChangRootReg(this.Phone,'Phone')
+            },
+
+            //类似于confirm的弹框
+            openYes() {
+                this.$confirm('确认修改？','提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    //发送请求
+
+
+                    this.$alert('修改成功', '提示', {
+                        confirmButtonText: '确定',
+                        callback: () => {
+                            this.$router.go(0);
+                        }
+                    });
+
+
+                }).catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: '已取消'
+                    });
+                });
+            },
+
+
             //点击确定按钮
             rootChangeYes(){
-                this.$refs.rootChangeConfirmName.ConfirmHead='确认';
-                this.$refs.rootChangeConfirmName.ConfirmContent='确认修改？';
-                this.$refs.rootChangeConfirmName.showConfirm=true;
+                if (this.rootChangeName() && this.rootChangePhone()) {
+                    //调用弹框
+                    this.openYes();
+                }
+
 
             },
         },
-        updated(){
-            console.log(this.ConfirmNum,this.AlertNum);
-            if(this.ConfirmNum==1){
-                console.log('con进来啦');
-                //发送修改请求成功后
-                this.$refs.rootChangeAlertName.AlertContent='修改成功';
-                this.$refs.rootChangeAlertName.showAlert=true;
-                if (this.AlertNum){
-                    console.log('alert进来啦');
-                    this.ConfirmNum=0;
-                    this.AlertNum=0;
-                    this.$refs.rootChangeAlertName.showAlert=false;
-                    this.$parent.rootShowWho='Root';
-                }
-            }
-        }
+
     }
 </script>
 
@@ -186,6 +220,7 @@
             background: white;
             border: #ccc 1px  solid;
             border-radius: 5px;
+            cursor: pointer;
         }
     }
 

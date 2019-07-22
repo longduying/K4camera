@@ -14,7 +14,7 @@
                     商品管理
                 </div>
                 <ul v-show="a">
-                    <router-link to="addGoods" tag="li">添加商品</router-link>
+                    <router-link to="/NewShopping" tag="li">添加商品</router-link>
                     <router-link to="addGoods" tag="li">商品列表</router-link>
                     <router-link to="addGoods" tag="li">分类管理</router-link>
                 </ul>
@@ -50,7 +50,7 @@
             <div>
                 <div @click="show5"><span class="iconfont icon-shouhou" style="font-size: 18px"></span>售后管理</div>
                 <ul v-show="e">
-                    <li>售后管理</li>
+                    <router-link to="/StateBox" tag="li">售后管理</router-link>
                 </ul>
             </div>
             <div>

@@ -11,88 +11,158 @@
                 <div>
                     姓名：
                     <el-tooltip  effect="dark" content="2-6个中文" placement="right">
-                        <input type="text">
+                        <input type="text" v-model="Name" @blur="newNameBlur">
                     </el-tooltip>
-                    <span class="iconfont icon-cuo rootSpanNo" v-show="rootNameNo"></span>
-                    <span class="iconfont icon-dui rootSpanYes" v-show="rootNameYes"></span>
+                    <span class="iconfont icon-cuo rootSpanNo" v-show="newNameNo"></span>
+                    <span class="iconfont icon-dui rootSpanYes" v-show="newNameYes"></span>
                 </div>
                 <!--性别-->
                 <div>
                     性别：
-                    <el-radio v-model="rootChangeSex" label="男">男</el-radio>
-                    <el-radio v-model="rootChangeSex" label="女">女</el-radio>
+                    <el-radio v-model="newUserSex" label="1">男</el-radio>
+                    <el-radio v-model="newUserSex" label="2">女</el-radio>
                 </div>
                 <!--手机号-->
                 <div>
                     手机：
                     <el-tooltip  effect="dark" content="11位手机号" placement="right">
-                        <input type="text">
+                        <input type="text" v-model="Phone" @blur="newPhoneBlur">
                     </el-tooltip>
-                    <span class="iconfont icon-cuo rootSpanNo" v-show="rootPhoneNo"></span>
-                    <span class="iconfont icon-dui rootSpanYes" v-show="rootPhoneYes"></span>
+                    <span class="iconfont icon-cuo rootSpanNo" v-show="newPhoneNo"></span>
+                    <span class="iconfont icon-dui rootSpanYes" v-show="newPhoneYes"></span>
                 </div>
                 <!--授权状态-->
                 <div class="changeRootNow">
                     访问权限：
                     <div>
-                        <el-checkbox-group v-model="rootCheckList">
-                            <el-checkbox label="概况"></el-checkbox>
-                            <el-checkbox label="商品管理"></el-checkbox>
-                            <el-checkbox label="交易管理"></el-checkbox>
-                            <el-checkbox label="财务管理"></el-checkbox>
-                            <el-checkbox label="客户管理"></el-checkbox>
-                            <el-checkbox label="数据分析"></el-checkbox>
-                            <el-checkbox label="售后管理"></el-checkbox>
-                            <el-checkbox label="权限管理"></el-checkbox>
+                        <el-checkbox-group v-model="newUserRoot">
+                            <el-checkbox label="0">概况</el-checkbox>
+                            <el-checkbox label="1">商品管理</el-checkbox>
+                            <el-checkbox label="2">交易管理</el-checkbox>
+                            <el-checkbox label="3">财务管理</el-checkbox>
+                            <el-checkbox label="4">客户管理</el-checkbox>
+                            <el-checkbox label="5">数据分析</el-checkbox>
+                            <el-checkbox label="6">售后管理</el-checkbox>
+                            <el-checkbox label="7">权限管理</el-checkbox>
                         </el-checkbox-group>
-
                     </div>
-
                 </div>
                 <!--确定按钮-->
                 <div class="changeRootBtn">
-                    <button @click="rootChangeYes">确定</button>
+                    <button @click="newUserYes">确定</button>
                 </div>
             </div>
         </div>
-        <Alert ref="rootChangeAlertName"></Alert>
     </div>
 
 </template>
 
 <script>
-    //引入alert弹框
-    import Alert from './../components/Alert';
 
     export default {
         name: "NewUser",
         data:function () {
             return {
+            /*----------姓名 开始----------*/
+                //姓名正则
+                NameReg:/^[\u4e00-\u9fa5]{2,6}/,
+                //姓名
+                Name:'',
+                //对错符合
+                newNameNo:false,
+                newNameYes:false,
+
+            /*----------姓名 结束----------*/
+
                 //性别选择
-                rootChangeSex:'男',
+                newUserSex:'1',
+
+            /*----------手机号 开始----------*/
+                PhoneReg:/^1[345789]\d{9}$/,
+                Phone:'',
+                newPhoneNo:false,
+                newPhoneYes:false,
+            /*----------手机号 结束----------*/
+
                 //权限选择框
-                rootCheckList:[],
-                //用户名对错
-                rootNameYes:false,
-                rootNameNo:false,
-                //手机号对错
-                //用户名对错
-                rootPhoneYes:false,
-                rootPhoneNo:false,
-                //Alert弹框的返回值
-                AlertNum:0,
+                newUserRoot:['0'],
+
+                //弹框提示内容
+                alertHead:'',
+                alertCon:'',
+
+
             }
         },
-        components:{
-            Alert
-        },
         methods:{
-            //点击确定按钮
-            rootChangeYes(){
-                this.$refs.rootChangeAlertName.AlertHead='注册成功';
-                this.$refs.rootChangeAlertName.AlertContent=`用户名：QQ1234<br>密码：123456<br>请及时登录系统修改密码！`;
-                this.$refs.rootChangeAlertName.showAlert=true;
+            //非空及正则验证
+            newReg(val,who){
+                let Y='new'+who+'Yes';
+                let N='new'+who+'No';
+                if (!val.trim()){
+                    this[N]=true;
+                    this[Y]=!this[N];
+                    return false;
+                }
+                if (this[who+'Reg'].test(val)){
+                    this[N]=false;
+                    this[Y]=!this[N];
+                    return true;
+                }else {
+                    this[N]=true;
+                    this[Y]=!this[N];
+                    return false;
+                }
             },
+            //姓名输入框失去焦点
+            newNameBlur(){
+                return this.newReg(this.Name,'Name');
+            },
+            //手机号失去焦点
+            newPhoneBlur(){
+                return this.newReg(this.Phone,'Phone');
+            },
+            //点击确定按钮
+            newUserYes(){
+                if (this.newNameBlur() && this.newPhoneBlur()) {
+                    //发送请求
+                    this.$axios.post('/api/newUserBoss',{
+                        name:this.Name,
+                        sex:this.newUserSex,
+                        phone:this.Phone,
+                        root:this.newUserRoot
+                    }).then((res)=>{
+                        if (res.data.error){
+                            this.alertHead='失败';
+                            this.alertCon='新增账号失败，请稍后重试';
+                            this.open()
+                        } else {
+                            this.alertHead='成功';
+                            this.alertCon=`注册成功！用户名：${res.data.user}，，密码：${res.data.pass}。为保护账户安全，请及时修改密码！`;
+                            this.open()
+                        }
+                    },()=>{
+                        this.alertHead='失败';
+                        this.alertCon='新增账号失败，请稍后重试！';
+                        this.open()
+                    })
+                }
+            },
+            //弹框
+            open() {
+                this.$alert(this.alertCon, '提示', {
+                    confirmButtonText: '确定',
+                    callback: () => {
+                        this.Name='';
+                        this.Phone='';
+                        this.newUserRoot=['0'];
+                        this.newPhoneNo=false;
+                        this.newPhoneYes=false;
+                        this.newNameYes=false;
+                        this.newNameNo=false;
+                    }
+                });
+            }
         },
     }
 </script>
