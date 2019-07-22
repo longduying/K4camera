@@ -60,6 +60,7 @@
 <script>
     import Rili from '../components/Clulu/CRili.vue'
      import echarts from 'echarts'
+    import ajax from './../ajax.js'
     export default {
         name: "C-index",
         components: {
@@ -215,7 +216,10 @@
 
         },
         mounted() {
-
+               async function show(){
+                   let obj=await ajax({url:'/all'})
+                  
+               }
 
             //发送请求
             //接受数据
