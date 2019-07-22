@@ -5,7 +5,7 @@
             <div>
                 <div style="margin-top: 30px">
                     <span class="iconfont icon-gaikuang2" style="font-size: 14px"></span>
-                    概况
+                    <router-link to="/Cindex" tag="li">概况</router-link>
                 </div>
             </div>
             <div>
@@ -30,7 +30,7 @@
             <div>
                 <div @click="show3"><span class="iconfont icon-caiwu" style="font-size: 16px"></span>财务管理</div>
                 <ul v-show="c">
-                    <li>财务总览</li>
+                    <router-link to="/Cfinance">财务总览</router-link>
                 </ul>
             </div>
             <div>

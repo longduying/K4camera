@@ -10,7 +10,10 @@ import RootBox from './views/RootBox'
 import NewUser from './views/NewUser'
 import StateBox from './views/StateBox'
 import NewShopping from './views/NewShopping'
+//
 
+import Cindex from './views/C-index'
+import Cfinance from './views/C-finance'
 
 import OrderManage from './components/OrderManage'
 import OrderRef from './components/OrderRef'
@@ -84,16 +87,16 @@ export default new Router({
                 },
 
                 //露露
-                // {
-                //   path:'/',
-                //   name:'Cindex',
-                //   component:Cindex
-                // },
-                // {
-                //   path: '/',
-                //   name: 'Cfinance',
-                //   component:Cfinance
-                // }
+                {
+                  path:'/Cindex',
+                  name:'Cindex',
+                  component:Cindex
+                },
+                {
+                  path: '/Cfinance',
+                  name: 'Cfinance',
+                  component:Cfinance
+                }
 
             ]
         },

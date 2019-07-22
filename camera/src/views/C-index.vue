@@ -216,10 +216,7 @@
 
         },
         mounted() {
-               async function show(){
-                   let obj=await ajax({url:'/all'})
-                  
-               }
+
 
             //发送请求
             //接受数据
