@@ -1,40 +1,12 @@
 <template>
     <el-container>
-        <el-aside width="300px" ></el-aside>
+
         <div id="C-main0">
             <el-header>财户总览</el-header>
-         <!--   <div id="c-main3">
-                <el-main id="C-main1">数据概览</el-main>
-
-                <el-main id="C-main2">
-                    <div id="C-d1">
-                        <div v-for="v in arr" class="d1">
-                            {{v.name}}
-                            <br><span>{{v.amount}}</span>
-                        </div>
-                        <div v-for="v in arr1" class="d1">
-                            <br>{{v.name}}
-                            <br><span>{{v.amount}}</span>
-                        </div>
-                    </div>
-                </el-main>
-                <el-main id="C-main4">
-                    <span>常用功能</span></el-main>
-                <el-main id="C-main5">日历</el-main>
-                <el-main id="C-main6">
-                    <i class="el-icon-shopping-bag-1">发布商品</i>
-                    <i class="el-icon-user">客户管理</i>
-                    <i class="el-icon-pie-chart">统计分析</i>
-                    <i class="el-icon-lock">权限管理</i>
-
-
-                </el-main>
-                <el-main id="C-main7"></el-main>-->
-
-                <el-main id="C-foo">
+            <el-main id="C-foo">
                     <div class="C-Sp">累计收入 （截至今日0点）</div>
                     <span class="C-sp">66</span>
-                        <span class="C-sp1" @click="number1">收支明细</span>
+                        <span class="C-sp1" @click="imfor(0)">收支明细</span>
 
                 </el-main>
                 <el-main id="C-foo2">
@@ -49,9 +21,30 @@
                     <div class="C-Sp">待结算总额（截至今日0点）</div>
 
                     <span class="C-sp"></span>
-                    <span class="C-sp1" @click="number2">结算记录</span>
+                    <span class="C-sp1" @click="imfor(1)">结算记录</span>
                 </el-main>
-            <imformation></imformation>
+            <div id="el-tab">
+            <el-tabs v-model="activeName" type="card" @tab-click="handleClick">
+                <el-tab-pane :style="{color:color}" label="账号明细" name="first"><Cimfor1></Cimfor1></el-tab-pane>
+                <el-tab-pane  label="结算记录"  name="second"><Cimfor2></Cimfor2></el-tab-pane>
+                 <keep-alive>
+                     <component :is="currentTab"></component>
+                 </keep-alive>
+            </el-tabs>
+
+                <div class="block">
+
+                    <el-pagination
+                            @size-change="handleSizeChange"
+                            @current-change="handleCurrentChange"
+                            :current-page="currentPage4"
+                            :page-sizes="[100, 200, 300, 400]"
+                            :page-size="100"
+                            layout="total, sizes, prev, pager, next, jumper"
+                            :total="400">
+                    </el-pagination>
+                </div>
+        </div>
 
             </div>
 
@@ -59,24 +52,39 @@
 </template>
 
 <script>
-    import imformation from './../components/Cimformation'
+    import Cimfor1 from './../components/Clulu/Cimformation1'
+    import Cimfor2 from './../components/Clulu/Cimformation2'
     export default {
         data:function(){
-            return{
-                a:true
-            }
+            return {
+                a:true,
+                color:' ',
+                currentTab:'',
+                arr:['Cimfor1','Cimfor2'],
+                currentPage1: 5,
+                currentPage2: 5,
+                currentPage3: 5,
+                currentPage4: 4
+            };
         },
         name: "C-finance",
-        methodes:{},
-        components:{
-            imformation
-        },
-        methods:{
-            number1(){
+        methods: {
+            handleSizeChange(val) {
+            },
+            handleCurrentChange(val) {
 
             },
-            number2(){}
+            imfor(i){
+              this.currentTab=this.arr[i]
+             this.color="#409eff"
+            },
+
         },
+        components:{
+            Cimfor2,
+            Cimfor1,
+        },
+
         mounted(){
             //发送ajax请求
         }
@@ -110,7 +118,8 @@
 
     }
     #C-main0{
-        position:relative
+        position:relative;
+        width:100%
     }
 
     .C-Sp{
