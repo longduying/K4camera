@@ -26,7 +26,7 @@
             <div id="el-tab">
             <el-tabs v-model="activeName" type="card" @tab-click="handleClick">
                 <el-tab-pane :style="{color:color}" label="账号明细" name="first"><Cimfor1></Cimfor1></el-tab-pane>
-                <el-tab-pane  label="结算记录"  name="second"><Cimfor2></Cimfor2></el-tab-pane>
+                <el-tab-pane label="结算记录"  name="second"><Cimfor2></Cimfor2></el-tab-pane>
                  <keep-alive>
                      <component :is="currentTab"></component>
                  </keep-alive>

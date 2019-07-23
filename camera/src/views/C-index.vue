@@ -11,12 +11,14 @@
             <div id="C-d1">
                 <div v-for="v in arr" class="d1">
                 {{v.name}}
-            <br><span>{{v.amount}}</span>
+
                 </div>
+                <span class="d1"  v-for="a in arr3" >{{a}}</span>
                 <div v-for="v in arr1" class="d1">
-                <br>{{v.name}}
-                <br><span>{{v.amount}}</span>
+              {{v.name}}
+
                   </div>
+                <span  v-for="a in arr4" class="d1">{{a}}</span>
             </div>
         </el-main>
                 <div id="C-main8">
@@ -32,35 +34,36 @@
           </el-main>
                 <Rili></Rili>
                 </div>
-       <!-- <el-main id="C-main7"></el-main>-->
+
          <el-main id="C-foo">
              <span>支付金额</span>
-
+             <span class="C-font">{{msg}}</span>
          </el-main>
          <el-main id="C-foo2">
              <span>访客数</span>
              <div id="main"  style="width:100px;height:150px;"></div>
-
+             <span class="C-font">44</span>
          </el-main>
          <el-main id="C-foo3">
              <span>支付订单数</span>
              <div id="main1"  style="width: 100px;height:100px;"></div>
+             <span class="C-font"></span>
          </el-main>
          <el-main id="C-foo4">
              <span>昨日成交转换率</span>
              <div id="main2"  style="width: 100px;height:100px;"></div>
+             <span class="C-font">33%</span>
          </el-main>
 
         </div>
+            </div>
 
-        </div>
     </el-container>
 </template>
 
 <script>
     import Rili from '../components/Clulu/CRili.vue'
      import echarts from 'echarts'
-    import ajax from './../ajax.js'
     export default {
         name: "C-index",
         components: {
@@ -69,14 +72,6 @@
         },
         //图表
         created(){
-         /*   // 基于准备好的dom，初始化echarts实例
-            var myChart = ;
-
-            // 指定图表的配置项和数据
-            var
-            };
-            // 使用刚指定的配置项和数据显示图表。
-            ;*/
             var time=setInterval(()=>{
                 if(document.querySelectorAll('#main').length){
                     this.myChart=echarts.init(document.querySelectorAll('#main')[0]);
@@ -105,17 +100,21 @@
         },
         data: function () {
             return {
+                msg:'',
+                msg1:'',
                 vis: false,
+                arr3:[30,50,50],
                 arr: [
-                    {name: '今日访客数', amount: 100},
-                    {name: '昨日访客户数', amount: 0},
-                    {name: '今日支付订单数', amount: 0},
-                    {name: '总客户数', amount: 0}],
+                    {name: '今日访客数'},
+                    {name: '昨日访客户数'},
+                    {name: '今日支付订单数'},
+                    {name: '总客户数'}],
                 arr1: [
-                    {name: '待付款', amount: 0},
-                    {name: '待发货', amount: 0},
-                    {name: '退款中', amount: 0},
-                    {name: '出售中宝贝', amount: 0}],
+                    {name: '待付款'},
+                    {name: '待发货'},
+                    {name: '退款中'},
+                    {name: '出售中宝贝'}],
+                arr4:[],
                 option : {
                     xAxis: {
                         type: 'category',
@@ -205,22 +204,37 @@
                         }
                     ]
                 },
-
-
-            myChart:''
+                myChart:''
         }
     },
 
         methods:{
-
-
         },
         mounted() {
+                this.$axios.get('/api/Alluser') .then((res)=>{
+
+                   this.arr3.push(res.data.data[0].Alluser)
+            },
+                (err)=>{
+                console.log(err)
+                });
+            this.$axios.get('/api/Pay') .then((res)=>{
+                 this.arr4.push(res.data.data.state1[0].c1)
+                    this.arr4.push(res.data.data.state2[0].c1)
+                    this.arr4.push(res.data.data.state3[0].c1)
+                    this.arr4.push(res.data.data.state4[0].c1)
+                },
+                (err)=>{
+                    console.log(err)
+                });
+            this.$axios.get('/api/PayMoney').then((res)=>{
+             this.msg=res.data.data[0].Paymoney
+            },
+                (err)=>{
+                console.log(err)
+            });
 
 
-            //发送请求
-            //接受数据
-            //
         }
     }
 
@@ -240,12 +254,7 @@
         background:white ;
         padding:0;
     }
-/*   #C-main7{
-       height:153px;
-       float:right;
-       width:240px;
-       .b();
-   }*/
+
    #C-main8{
        overflow:hidden
    }
@@ -261,6 +270,7 @@
         line-height: 0;
         color: gray;
         width:23%;
+        position:relative;
     }
     .footer1{
         width:23%;
@@ -268,6 +278,7 @@
         background: white;
         border:1px solid rgb(242,242,242);
         float:left;
+        position:relative;
         margin-left:27px;
         margin-top: 25px;
         overflow: hidden;
@@ -296,6 +307,10 @@
         color: #333;
          text-align: left;
         line-height: 60px;
+    }
+    .C-font{
+        font-weight:bolder;
+        font-size:20px;
     }
     #C-main1{
         margin-top: 40px;
@@ -331,7 +346,13 @@
            margin-top: 20px;
        }
    }
-
+  .C-font{
+      position:absolute;
+      top:80px;
+      font-size:40px;
+      color: #1f1918;
+      left:25px;
+  }
 
    #C-main5{
        float:left;
@@ -359,7 +380,18 @@
         font-size:18px;
         line-height:150px;
     }
+  .echarts{
+      position:absolute;
+      left:130px;
 
+  }
+  #main{
+      .echarts()
+  }
+   #main1{.echarts()
+  }
+  #main2{.echarts()
+  }
 
    .el-aside {
        height:300px;
