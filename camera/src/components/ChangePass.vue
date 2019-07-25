@@ -28,7 +28,7 @@
                         <p>
                             <span class="iconfont icon-mima"></span>
                         </p>
-                        <input type="text" placeholder="密码" v-model="pass" @blur="passBlur">
+                        <input type="password" placeholder="密码" v-model="pass" @blur="passBlur">
                         <span class="iconfont icon-cuo no" v-show="passNo"></span>
                         <span class="iconfont icon-dui yes" v-show="passYes"></span>
                     </div>
@@ -41,7 +41,7 @@
                         <p>
                             <span class="iconfont icon-mima"></span>
                         </p>
-                        <input type="text" placeholder="新密码" v-model="newPass" @blur="newPassBlur">
+                        <input type="password" placeholder="新密码" v-model="newPass" @blur="newPassBlur">
                         <span class="iconfont icon-cuo no" v-show="newPassNo"></span>
                         <span class="iconfont icon-dui yes" v-show="newPassYes"></span>
                     </div>
@@ -54,7 +54,7 @@
                         <p>
                             <span class="iconfont icon-mima"></span>
                         </p>
-                        <input type="text" placeholder="确认密码" v-model="newPassTwo" @blur="newPassTwoBlur">
+                        <input type="password" placeholder="确认密码" v-model="newPassTwo" @blur="newPassTwoBlur">
                         <span class="iconfont icon-cuo no" v-show="newPassTwoNo"></span>
                         <span class="iconfont icon-dui yes" v-show="newPassTwoYes"></span>
                     </div>
@@ -115,7 +115,7 @@
                 passNo:false,
             /*----------密码  结束----------*/
 
-            /*----------密码  开始----------*/
+            /*----------新密码  开始----------*/
                 //输入内容
                 newPass:'',
                 //描述信息显示隐藏
@@ -126,7 +126,7 @@
                 newPassYes:false,
                 //错误图标显示
                 newPassNo:false,
-            /*----------密码  结束----------*/
+            /*----------新密码  结束----------*/
 
             /*----------重复密码  开始----------*/
                 //输入内容
@@ -141,6 +141,8 @@
                 newPassTwoNo:false,
             /*----------重复密码  结束----------*/
 
+                //弹框的描述内容
+                changePassAlertCon:''
 
 
             }
@@ -182,7 +184,7 @@
                 return this.Reg(this.userReg,'user','*账号由2位大写字母和4位数字组成')
             },
 
-            //密码输入框失去焦点
+            //旧密码输入框失去焦点
             passBlur(){
                 if (!this.sky('pass')) {
                     return false;
@@ -190,7 +192,7 @@
                 return this.Reg(this.passReg,'pass','*密码应当包含字母大写、小写、数字、特殊符号其中三种，8-16位');
             },
 
-            //密码输入框失去焦点
+            //新密码输入框失去焦点
             newPassBlur(){
                 if (!this.sky('newPass')) {
                     return false;
@@ -218,12 +220,59 @@
 
             //取消按钮被点击
             EChangePassNo(){
-                this.$parent.ChangePassShow=false;
+                this.$parent.changePassShow=false;
             },
 
             //确定按钮被点击
             EChangePassYes(){
                 //发送请求
+                if(!this.userBlur() && !this.passBlur() && !this.newPassTwoBlur() && this.newPassTwoBlur()){
+                    return
+                }else {
+                    this.$axios.post('/api/changePass',{
+                        user:this.user,
+                        pass:this.pass,
+                        newPass:this.newPassTwo
+                    }).then((res)=>{
+                        switch (res.data.error){
+
+                            case 1:
+                                this.changePassAlertCon='修改密码失败，请稍后再试';
+                                this.changePassOpen();
+                                break;
+                            case 2:
+                                this.changePassAlertCon='用户名输入有误，请核对后重新输入。';
+                                this.changePassOpen();
+                                break;
+                            case 3:
+                                this.changePassAlertCon='账号已被冻结，请联系系统管理员！';
+                                this.changePassOpen();
+                                break;
+                            case 4:
+                                this.changePassAlertCon='原密码输入有误，请核对后重新输入。';
+                                this.changePassOpen();
+                                break;
+                            case 0:
+                                this.changePassAlertCon='密码修改成功！';
+                                this.changePassOpen();
+                                this.user='';
+                                this.pass='';
+                                this.newPass='';
+                                this.newPassTwo='';
+                                this.$parent.changePassShow=false;
+                                break;
+
+                        }
+                    })
+                }
+            },
+
+            //弹框
+            changePassOpen() {
+                this.$alert(this.changePassAlertCon, '提示', {
+                    confirmButtonText: '确定',
+                    /*callback: () => {}*/
+                });
             }
 
         },

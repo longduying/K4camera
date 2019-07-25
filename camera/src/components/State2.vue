@@ -2,47 +2,52 @@
     <div class="state1-box">
         <!--标题-->
         <div class="root-head" >
-            <span>物流详情</span>
-            <button>返回</button>
+            <span>详情</span>
+            <button  @click="this.$parent.starBackBtn">返回</button>
         </div>
         <!--显示主体-->
         <div class=" clearfix" >
             <!--进度条-->
             <div>
-                <el-steps :active="2" finish-status="success" simple style="margin-top: 20px">
+                <el-steps :active="3" finish-status="success" simple style="margin-top: 20px">
                     <el-step title="发起售后" ></el-step>
                     <el-step title="处理中" ></el-step>
-                    <el-step title="送修中" ></el-step>
-                    <el-step title="维修中" ></el-step>
-                    <el-step title="返回中" ></el-step>
                     <el-step title="已完成" ></el-step>
                 </el-steps>
             </div>
             <!--详情-->
             <div class="state2-con-boss">
                 <div>
-                    <b>物流单号：</b>102010101010
+                    <i class=" el-icon-circle-close"></i>
+                    <p>申请已被拒绝</p>
                 </div>
-                <div class="state2-wu">
-                    <b>物理信息：</b>
-                    <div>
-                        <el-steps :active="4" align-center>
-                            <el-step title="已发货" description="包裹正在揽收中"></el-step>
-                            <el-step title="已揽件" description="包裹已被物理公司揽收"></el-step>
-                            <el-step title="成都市" description="包裹已经到达成都市"></el-step>
-                            <el-step title="派送中" description="正在为您派送"></el-step>
-                        </el-steps>
+                <!--用户描述信息-->
+                <div class="state2-user-con-box" >
+                    <div class="state2-user-con1">
+                        <p><b>用户描述：</b>{{state2Data[state2Length].star}}</p>
+                    </div>
+                    <div class="state2-user-con1">
+                        <p><b>用户联系方式：</b>{{state2Data[state2Length].userPhone}}</p>
+                    </div>
+                    <div class="state2-user-con2">
+                        <p><b>故障现象详细描述：</b></p>
+                        <div >
+                            {{state2Data[state2Length].starUserCon}}
+                        </div>
                     </div>
                 </div>
 
-                <div class="state1-btn">
-                    <button>已收到包裹</button>
+                <!--处理意见-->
+                <div class="state2-user-con1-box">
+                    <p><b>受理人员：</b>{{state2Data[state2Length].bossUserData}}</p>
+                    <b>拒绝理由：</b>
+                    <div >
+                        {{state2Data[state2Length].starBossCon}}
+                    </div>
                 </div>
             </div>
 
         </div>
-
-
     </div>
 
 </template>
@@ -50,11 +55,17 @@
 <script>
 
     export default {
-        name: "State2",
+        name: "state2",
         data:function () {
             return {
-                State1YesOrNo:'1'
+                //全部数据
+                state2Data:this.$parent.starBoxData,
+                //下标
+                state2Length:this.$parent.starBoxDataLength,
             }
+        },
+        methods:{
+
         }
 
     }
@@ -96,53 +107,99 @@
     }
 
 
+
+
     //详情
     .state2-con-boss{
         width: 90%;
         margin-left: 3%;
         margin-top: 20px;
+        background: #f2f2f2;
         border: #cccccc solid 1px;
         border-radius: 5px;
         padding: 1% 2%;
 
         >div{
-            margin-top: 20px;
+            width: 100%;
+            margin: 40px 0 20px 0;
+
+            text-align: center;
+
+            >i{
+                font-size: 150px;
+                font-weight: bold;
+                color: red;
+            }
+            >p{
+                font-size: 20px;
+                margin-top: 20px;
+            }
         }
 
-        //物流信息
-        >.state2-wu{
-            margin-top: 40px;
-            margin-bottom: 130px;
+        >.state2-user-con-box{
+            width: 95%;
+            margin-left: 2%;
+            padding-left: 10px;
+            background: white;
+            border: #cccccc solid 1px;
+            border-radius: 5px;
+            margin-top: 20px;
+            text-align: left;
 
-            >div{
-                margin-top: 30px;
+            //用户描述信息（简单）
+            >.state2-user-con1{
+                margin: 10px 0 10px 0;
+                width: 100%;
+
             }
 
+            //用户描述（详细）
+            >.state2-user-con2{
+                width: 100%;
+                margin-bottom: 10px;
+
+                >div{
+                    width: 96%;
+                    padding: 10px 2%;
+                    overflow: hidden;
+                }
+            }
         }
 
-    }
-
-
-
-
-
-    //确定按钮
-    .state1-btn{
-        width: 100%;
-        text-align: center;
-        margin: 40px 0 20px 0;
-
-
-        >button{
-            width: 120px;
-            height: 35px;
-            border: 1px solid skyblue;
+        >.state2-user-con1-box{
+            width: 95%;
+            margin-left: 2%;
+            padding:10px 0  0 10px;
+            background: white;
+            border: #cccccc solid 1px;
             border-radius: 5px;
-            background: #0aa0f6;
-            color: white;
-            cursor: pointer;
+            margin-top: 20px;
+            text-align: left;
+
+            >b{
+                font-size: 16px;
+            }
+            >div{
+                padding: 10px 2%;
+            }
+            >p{
+                margin:0 0 10px 0;
+                font-size: 16px;
+            }
         }
+
+
     }
+
+
+
+
+
+
+
+
+
+
 
 
 

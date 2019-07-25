@@ -3,7 +3,7 @@
         <!--标题-->
         <div class="root-head" >
             <span>申请详情</span>
-            <button>返回</button>
+            <button @click="this.$parent.starBackBtn">返回</button>
         </div>
         <!--显示主体-->
         <div class=" clearfix" >
@@ -20,44 +20,46 @@
             </div>
             <!--详情-->
             <div class="state1-con-boss">
+
                 <!--用户描述信息-->
-                <div class="state1-user-con-box">
+                <div class="state1-user-con-box" >
                     <div class="state1-user-con1">
-                       <p><b>用户描述：</b>这里从数据库取故障现象</p>
+                       <p><b>用户描述：</b>{{state1Data[state1Length].star}}</p>
                     </div>
                     <div class="state1-user-con1">
-                        <p><b>用户联系方式：</b>18109090040</p>
+                        <p><b>用户联系方式：</b>{{state1Data[state1Length].userPhone}}</p>
                     </div>
                     <div class="state1-user-con2">
                         <p><b>故障现象详细描述：</b></p>
                         <div >
-                           这个里面从数据库取故障详细描述信息这里从数据库取故障现象这里从数据库取故障现象这里从数据库取故障现象这里从数据库取故障现象这里从数据库取故障现象这里从数据库取故障现象这里从数据库取故障现象这里从数据库取故障现象这里从数据库取故障现象这里从数据库取故障现象这里从数据库取故障现象这里从数据库取故障现象这里从数据库取故障现象这里从数据库取故障现象这里从数据库取故障现象这里从数据库取故障现象这里从数据库取故障现象
+                            {{state1Data[state1Length].starUserCon}}
                         </div>
                     </div>
                 </div>
                 <hr>
-
                 <!--处理意见-->
                 <div class="state1-me-con">
                     <div>
+                        <b>当前受理工号：</b>{{this.$parent.bossUser.userNum}}
+                    </div>
+                    <div>
                         <b>处理意见：</b>
-                        <el-radio v-model="State1YesOrNo" label="1">同意送修</el-radio>
+                        <el-radio v-model="State1YesOrNo" label="5">同意送修</el-radio>
                         <el-radio v-model="State1YesOrNo" label="2">拒绝送修</el-radio>
                     </div>
                     <div>
                         <b>备注：</b>
                         <br>
-                        <textarea placeholder="该项必填"></textarea>
-                        <span class="iconfont icon-dui state1-yes" ></span>
-                        <span class="iconfont icon-cuo state1-no"></span>
-
+                        <textarea placeholder="该项必填" v-model="starBossCon" @blur="star1Null"></textarea>
+                        <span class="iconfont icon-dui state1-yes" v-show="starSpanShowYes"></span>
+                        <span class="iconfont icon-cuo state1-no" v-show="starSpanShowNo"></span>
                     </div>
                 </div>
+
                 <div class="state1-btn">
-                    <button>确定</button>
+                    <button @click="star1Go">确定</button>
                 </div>
             </div>
-
         </div>
 
 
@@ -71,10 +73,82 @@
         name: "State1",
         data:function () {
             return {
-                State1YesOrNo:'1'
-            }
-        }
+                //全部数据
+                state1Data:this.$parent.starBoxData,
+                //下标
+                state1Length:this.$parent.starBoxDataLength,
 
+
+
+                //是否同意送修，5-同意，2-拒绝
+                State1YesOrNo:'5',
+                //输入库输入内容
+                starBossCon:'',
+                //备注输入框的图标显示隐藏
+                starSpanShowYes:false,
+                starSpanShowNo:false,
+            }
+        },
+        methods:{
+            //非空判断
+            star1Null(){
+                if(this.starBossCon.trim()){
+                    this.starSpanShowNo=false;
+                    this.starSpanShowYes=!this.starSpanShowNo;
+                    return true;
+                }else {
+                    this.starSpanShowNo=true;
+                    this.starSpanShowYes=!this.starSpanShowNo;
+                    return false;
+                }
+            },
+            //点击确定按钮
+            star1Go(){
+                if (this.star1Null()){
+                    this.star1OpenYes();
+                }
+            },
+            //修改信息发送请求的函数
+            star1SetData(){
+                this.$axios.post('/api/star1SetData',{
+                    starStateId:this.State1YesOrNo,
+                    starBossCon:this.starBossCon,
+                    orderId:this.state1Data[this.state1Length].orderId,
+                    bossUser:this.$parent.bossUser.userNum
+                }).then((res)=>{
+                    if (res.data.error){
+                        this.$alert('数据加载失败，请稍后再试。', '提示', {
+                            confirmButtonText: '确定',
+                        });
+                    } else{
+                        this.$alert('修改成功', '提示', {
+                            confirmButtonText: '确定',
+                            callback: () => {
+                                this.state1Data[this.state1Length].starState=this.State1YesOrNo;
+                                this.state1Data[this.state1Length].bossUserData=this.$parent.bossUser.userNum;
+                                this.state1Data[this.state1Length].starBossCon=this.starBossCon;
+                                this.$parent.starBackBtn();
+                            }
+                        });
+                    }
+                })
+            },
+            //点击确定后的弹框
+            star1OpenYes() {
+                this.$confirm('确认提交处理信息？','提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    this.star1SetData();
+                }).catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: '已取消'
+                    });
+                });
+            },
+        }
     }
 </script>
 

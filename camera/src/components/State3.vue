@@ -1,9 +1,9 @@
 <template>
-    <div class="state1-box">
+    <div class="state3-box">
         <!--标题-->
         <div class="root-head" >
-            <span>申请详情</span>
-            <button>返回</button>
+            <span>维修详情</span>
+            <button @click="this.$parent.starBackBtn">返回</button>
         </div>
         <!--显示主体-->
         <div class=" clearfix" >
@@ -19,40 +19,39 @@
                 </el-steps>
             </div>
             <!--详情-->
-            <div class="state1-con-boss">
+            <div class="state3-con-boss">
                 <!--用户描述信息-->
-                <div class="state1-user-con-box">
-                    <div class="state1-user-con1">
-                       <p><b>用户描述：</b>这里从数据库取故障现象</p>
+                <div class="state3-user-con-box">
+                    <div class="state3-user-con1">
+                       <p><b>用户描述：</b>{{state3Data[state3Length].star}}</p>
                     </div>
-                    <div class="state1-user-con1">
-                        <p><b>用户联系方式：</b>18109090040</p>
+                    <div class="state3-user-con1">
+                        <p><b>用户联系方式：</b>{{state3Data[state3Length].userPhone}}</p>
                     </div>
-                    <div class="state1-user-con2">
+                    <div class="state3-user-con2">
                         <p><b>故障现象详细描述：</b></p>
                         <div >
-                           这个里面从数据库取故障详细描述信息这里从数据库取故障现象这里从数据库取故障现象这里从数据库取故障现象这里从数据库取故障现象这里从数据库取故障现象这里从数据库取故障现象这里从数据库取故障现象这里从数据库取故障现象这里从数据库取故障现象这里从数据库取故障现象这里从数据库取故障现象这里从数据库取故障现象这里从数据库取故障现象这里从数据库取故障现象这里从数据库取故障现象这里从数据库取故障现象这里从数据库取故障现象
+                            {{state3Data[state3Length].starUserCon}}
                         </div>
                     </div>
                 </div>
                 <hr>
 
                 <!--处理意见-->
-                <div class="state1-me-con">
+                <div class="state3-me-con">
                     <div>
-                        <b>维修人员：</b>张文
+                        <b>当前维修人员：</b>{{this.$parent.bossUser.userNum}}
                     </div>
                     <div>
                         <b>维修记录：</b>
                         <br>
-                        <textarea placeholder="填写故障现象以及维修操作"></textarea>
-                        <span class="iconfont icon-dui state1-yes" ></span>
-                        <span class="iconfont icon-cuo state1-no"></span>
-
+                        <textarea placeholder="填写故障现象以及维修操作" v-model="state3StarData" @blur="state3NullFn"></textarea>
+                        <span class="iconfont icon-dui state3-yes" v-show="state3SpanYes"></span>
+                        <span class="iconfont icon-cuo state3-no" v-show="state3SpanNo"></span>
                     </div>
                 </div>
-                <div class="state1-btn">
-                    <button>确定</button>
+                <div class="state3-btn">
+                    <button @click="state3Go">确定</button>
                 </div>
             </div>
 
@@ -69,7 +68,69 @@
         name: "State3",
         data:function () {
             return {
-                State1YesOrNo:'1'
+                //全部数据
+                state3Data:this.$parent.starBoxData,
+                //下标
+                state3Length:this.$parent.starBoxDataLength,
+
+                //输入框图标
+                state3SpanYes:false,
+                state3SpanNo:false,
+
+                //输入框内容
+                state3StarData:'',
+
+                //维修人员姓名
+                userBossName:'',
+            }
+        },
+        methods:{
+            //非空判断
+            state3NullFn(){
+                if (this.state3StarData.trim()){
+                    this.state3SpanYes=true;
+                    this.state3SpanNo=!this.state3SpanYes;
+                    return true;
+                }else {
+                    this.state3SpanYes=false;
+                    this.state3SpanNo=!this.state3SpanYes;
+                    return false;
+                }
+            },
+            //点击确定按钮
+            state3Go(){
+                if (this.state3NullFn()) {
+                    this.$confirm('确认提交维修信息？','提示', {
+                        confirmButtonText: '确定',
+                        cancelButtonText: '取消',
+                        type: 'warning'
+                    }).then(() => {
+                        this.$axios.post('/api/state3SetData',{
+                            orderId:this.state3Data[this.state3Length].orderId,
+                            con:this.state3StarData,
+                            bossUser:this.$parent.bossUser.userNum
+                        }).then((res)=>{
+                            if (res.data.error){
+                                this.$alert('数据加载失败，请稍后再试。', '提示', {
+                                    confirmButtonText: '确定',
+                                });
+                            } else {
+                                this.$alert('操作成功', '提示', {
+                                    confirmButtonText: '确定',
+                                    callback: () => {
+                                        this.state3Data[this.state3Length].starState=6;
+                                        this.$parent.starBackBtn();
+                                    }
+                                });
+                            }
+                        })
+                    }).catch(() => {
+                        this.$message({
+                            type: 'info',
+                            message: '已取消'
+                        });
+                    });
+                }
             }
         }
 
@@ -107,13 +168,13 @@
     }
 
     //显示主体
-    .state1-box{
+    .state3-box{
         padding-bottom: 30px;
     }
 
 
     //详情
-    .state1-con-boss{
+    .state3-con-boss{
         width: 90%;
         margin-left: 3%;
         margin-top: 20px;
@@ -123,14 +184,14 @@
     }
 
     //用户描述信息（简单）
-    .state1-user-con1{
+    .state3-user-con1{
         margin: 10px 0 10px 0;
         width: 100%;
 
     }
 
     //用户描述（详细）
-    .state1-user-con2{
+    .state3-user-con2{
         width: 100%;
         margin-bottom: 10px;
 
@@ -143,7 +204,7 @@
     }
 
     //处理意见box
-    .state1-me-con{
+    .state3-me-con{
         margin-top: 10px;
         width: 100%;
 
@@ -169,11 +230,11 @@
                 right: 3px;
             }
 
-            >.state1-yes{
+            >.state3-yes{
                 .spanShow();
                 color: green;
             }
-            >.state1-no{
+            >.state3-no{
                 .spanShow();
                 color: red;
             }
@@ -181,7 +242,7 @@
     }
 
     //确定按钮
-    .state1-btn{
+    .state3-btn{
         width: 100%;
         text-align: center;
         margin: 40px 0 20px 0;

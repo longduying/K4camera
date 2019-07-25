@@ -6,8 +6,8 @@
         </div>
         <!--搜索-->
         <div class="root-seo">
-            <input type="text" placeholder="通过商品名搜索">
-            <button class="root-seo-btn">搜索</button>
+            <input type="text" placeholder="通过商品名搜索" v-model="starSeoCon">
+            <button class="root-seo-btn" @click="starSeoBtnClick">搜索</button>
         </div>
         <!--显示主体-->
         <div class="state-box">
@@ -19,16 +19,18 @@
                     <li>发起日期</li>
                     <li>故障现象</li>
                     <li class="state-boss">
-                         <span @click="StateNavShow" class="state-con-box">
-                            当前进度
-                            <span class="iconfont icon-xia"></span>
+                        <span @click="StateNavShow" class="state-con-box">
+                            {{starStateCon}}
+                        <span class="iconfont icon-xia"></span>
                         </span>
                         <ul v-show="StateNav" class="root-nav-state">
-                            <li>待处理</li>
-                            <li>送修中</li>
-                            <li>维修中</li>
-                            <li>返回中</li>
-                            <li>已完成</li>
+                            <li @click="starStateConFn(0,'当前进度')">当前进度</li>
+                            <li @click="starStateConFn(1,'待处理')">待处理</li>
+                            <li @click="starStateConFn(2,'已拒绝')">已拒绝</li>
+                            <li @click="starStateConFn(5,'送修中')">送修中</li>
+                            <li @click="starStateConFn(3,'维修中')">维修中</li>
+                            <li @click="starStateConFn(6,'返回中')">返回中</li>
+                            <li @click="starStateConFn(4,'已完成')">已完成</li>
                         </ul>
                     </li>
                     <li>操作</li>
@@ -36,70 +38,23 @@
             </div>
             <!--内容显示区域-->
             <div class="state-body">
-
-                <div class="state-content clearfix">
+                <div class="state-content" v-if="!stateData.length">没有符合要求的数据。</div>
+                <div class="state-content clearfix" v-for="(v,i) in  stateData" :key="i">
                     <p class="state-name clearfix">
-                        <img src="./../assets/D-img/d1.png" alt="">
-                        <span>这个是商品的名字这个是商品的名字这个是商品的名字这个是商品的名字这个是商品的名字，最多只能填写18个字的点点滴滴</span>
+                        <img :src="v.src" alt="">
+                        <span>{{v.name}}</span>
                     </p>
-                    <p class="state-shopping">2019-07-21</p>
-                    <p class="state-time">2019-07-21</p>
-                    <p class="state-why">闪光灯无法打开</p>
-                    <p class="state-new">发起售后</p>
+                    <p class="state-shopping">{{v.shoppingTime.split('T')[0]}}</p>
+                    <p class="state-time">{{v.starTime.split('T')[0]}}</p>
+                    <p class="state-why">{{v.star}}</p>
+                    <p class="state-new" v-if="v.starState==1">待处理</p>
+                    <p class="state-new" v-if="v.starState==2">已拒绝</p>
+                    <p class="state-new" v-if="v.starState==5">送修中</p>
+                    <p class="state-new" v-if="v.starState==3">维修中</p>
+                    <p class="state-new" v-if="v.starState==6">返回中</p>
+                    <p class="state-new" v-if="v.starState==4">已完成</p>
                     <p class="state-btn">
-                        <button>查看详情</button>
-                    </p>
-                </div>
-                <div class="state-content clearfix">
-                    <p class="state-name clearfix">
-                        <img src="./../assets/D-img/d1.png" alt="">
-                        <span>这个是商品的名字这个是商品的名字这个是商品的名字这个是商品的名字这个是商品的名字，最多只能填写18个字的点点滴滴</span>
-                    </p>
-                    <p class="state-shopping">2019-07-21</p>
-                    <p class="state-time">2019-07-21</p>
-                    <p class="state-why">闪光灯无法打开</p>
-                    <p class="state-new">发起售后</p>
-                    <p class="state-btn">
-                        <button>查看详情</button>
-                    </p>
-                </div>
-                <div class="state-content clearfix">
-                    <p class="state-name clearfix">
-                        <img src="./../assets/D-img/d1.png" alt="">
-                        <span>这个是商品的名字这个是商品的名字这个是商品的名字这个是商品的名字这个是商品的名字，最多只能填写18个字的点点滴滴</span>
-                    </p>
-                    <p class="state-shopping">2019-07-21</p>
-                    <p class="state-time">2019-07-21</p>
-                    <p class="state-why">闪光灯无法打开</p>
-                    <p class="state-new">发起售后</p>
-                    <p class="state-btn">
-                        <button>查看详情</button>
-                    </p>
-                </div>
-                <div class="state-content clearfix">
-                    <p class="state-name clearfix">
-                        <img src="./../assets/D-img/d1.png" alt="">
-                        <span>这个是商品的名字这个是商品的名字这个是商品的名字这个是商品的名字这个是商品的名字，最多只能填写18个字的点点滴滴</span>
-                    </p>
-                    <p class="state-shopping">2019-07-21</p>
-                    <p class="state-time">2019-07-21</p>
-                    <p class="state-why">闪光灯无法打开</p>
-                    <p class="state-new">发起售后</p>
-                    <p class="state-btn">
-                        <button>查看详情</button>
-                    </p>
-                </div>
-                <div class="state-content clearfix">
-                    <p class="state-name clearfix">
-                        <img src="./../assets/D-img/d1.png" alt="">
-                        <span>这个是商品的名字这个是商品的名字这个是商品的名字这个是商品的名字这个是商品的名字，最多只能填写18个字的点点滴滴</span>
-                    </p>
-                    <p class="state-shopping">2019-07-21</p>
-                    <p class="state-time">2019-07-21</p>
-                    <p class="state-why">闪光灯无法打开</p>
-                    <p class="state-new">发起售后</p>
-                    <p class="state-btn">
-                        <button>查看详情</button>
+                        <button @click="nextStar(i)">查看详情</button>
                     </p>
                 </div>
 
@@ -108,9 +63,14 @@
             <!--分页-->
             <div class="state-pages-box">
                 <el-pagination
+                        @current-change="starPagesClick"
                         background
                         layout="prev, pager, next"
-                        :total="50">
+                        :hide-on-single-page="true"
+                        :total="starPagesAllNum"
+                        :page-size="5"
+                        :pager-count='5'
+                        :current-page="starPagesNum">
                 </el-pagination>
             </div>
         </div>
@@ -118,21 +78,208 @@
 </template>
 
 <script>
-
-
     export default {
         name: "StateLi",
         data:function () {
             return {
+                //后台返回的数据
+                stateData:[],
+                //当前系统用户信息
+                bossUser:{},
+
+                //搜索框内容
+                starSeoCon:'',
+
+                //当前搜索状态，0-无搜素，1-搜索框搜索，2-状态搜索
+                starPagesState:0,
+
+
+            /*----------状态的下拉选项 开始----------*/
+                //显示内容
+                starStateCon:'当前进度',
+                /*显示内容的代码，
+                *当前状态（0），待处理（1），已拒绝（2），送修中（5），
+                *维修中（3），返回中（6），已完成（4）*/
+                starStateConNum:0,
                 //当前状态下拉框的显示隐藏
                 StateNav:false,
+            /*----------状态的下拉选项 结束----------*/
+
+            /*----------分页 开始----------*/
+                //总数据条数
+                starPagesAllNum:1,
+                //当前页码
+                starPagesNum:1,
+            /*----------分页 结束----------*/
+                
+                //弹框提示内容
+                stateDataAlertCon:'',
             }
         },
         methods:{
+
+            //数据赋值函数
+            starDataGetFn(res){
+                this.stateData=res.data.data;
+                this.starPagesAllNum=res.data.pages;
+                this.bossUser=res.data.bossUser;
+            },
+
+            //页面加载时调用的函数
+            starDataFn(){
+                this.$axios.post('/api/newStateData',{
+                    pagesNum:this.starPagesNum
+                }).then((res)=>{
+                    if (res.data.error){
+                        this.stateDataAlertCon='数据加载失败，请稍后再试。';
+                        this.stateDataOpen();
+                    }else {
+                        this.starDataGetFn(res);
+                    }
+                })
+            },
+
+
+
+        /*----------搜索 开始----------*/
+            //搜索的请求函数
+            seoStarNameFn(){
+                this.$axios.post('/api/starSeoBtnClick',{
+                    pagesNum:this.starPagesNum,
+                    where:this.starSeoCon
+                }).then((res)=>{
+                    if (res.data.error){
+                        this.stateDataAlertCon='数据加载失败，请稍后再试。';
+                        this.stateDataOpen();
+                    } else {
+                        this.starDataGetFn(res)
+                    }
+                })
+            },
+            //搜索按钮被点击
+            starSeoBtnClick(){
+                //改变页码数为1
+                this.starPagesNum=1;
+                //改变状态搜索为全部
+                this. starStateCon='当前进度';
+                //判断输入框是否有内容，如果没有搜索全部
+                if (!this.starSeoCon){
+                    this.starPagesState=0;
+                    this. starDataFn();
+                }else {
+                    this.starPagesState=1;
+                    this.seoStarNameFn();
+                }
+            },
+        /*----------搜索 结束----------*/
+
+
+        /*----------状态选项下拉框 开始----------*/
+            //筛选状态请求函数
+            starStateDataFn(){
+                this.$axios.post("/api/seoStarState",{
+                    pagesNum:this.starPagesNum,
+                    where:this.starStateConNum
+                }).then((res)=>{
+                    if (res.data.error){
+                        this.stateDataAlertCon='搜索数据失败，请稍后再试。';
+                        this.stateDataOpen();
+                    } else{
+                        this.starDataGetFn(res)
+                    }
+                })
+            },
             //状态点击下拉框的显示隐藏
             StateNavShow(){
                 this.StateNav=!this.StateNav;
             },
+            //显示的状态
+            starStateConFn(num,val){
+                this.starStateCon=val;
+                this.starStateConNum=num;
+                this.StateNav=false;
+                this.starPagesNum=1;
+                this.starSeoCon='';
+                if(!num){
+                    this.starPagesState=0;
+                    this.starDataFn()
+                }else {
+                    this.starPagesState=2;
+                    this. starStateDataFn();
+                }
+            },
+        /*----------状态选项下拉框 结束----------*/
+
+
+        /*----------分页 开始----------*/
+            starPagesClick(num){
+                  this.starPagesNum=num;
+                  switch (this.starPagesState) {
+                      case 0:
+                          this. starDataFn();
+                          break;
+                      case 1:
+                          this.seoStarNameFn();
+                          break;
+                      default:
+                          this.starStateDataFn();
+                  }
+            },
+        /*----------分页 结束----------*/
+
+
+            //点击查看详情按钮
+            nextStar(who){
+                //获取点击的数据
+                let data=this.stateData[who];
+                //将数据传给父组件
+                this.$parent.starBoxData=this.stateData;
+                //将角标传给父组件
+                this.$parent.starBoxDataLength=who;
+                //将当前用户传给父组件
+                this.$parent.bossUser=this.bossUser;
+                //隐藏所有组件
+                for(let key in this.$parent.starJson){
+                    this.$parent.starJson[key]=false;
+                }
+                //显示对应的组件
+                switch (Number(data.starState)) {
+                    case 1: //待处理
+                        this.$parent.starJson.star1=true;
+                        break;
+                    case 2 || '2': //已拒绝
+                        this.$parent.starJson.star2=true;
+                        break;
+                    case 3: //维修中
+                        this.$parent.starJson.star3=true;
+                        break;
+                    case 4: //已完成
+                        this.$parent.starJson.star4=true;
+                        break;
+                    case 5: //送修中
+                        this.$parent.starJson.star5=true;
+                        break;
+                    case 6: //返回中
+                        this.$parent.starJson.star6=true;
+                        break;
+                }
+            },
+
+
+
+            //弹框
+            stateDataOpen() {
+                this.$alert(this.stateDataAlertCon, '提示', {
+                    confirmButtonText: '确定',
+                    /*callback: () => {
+
+
+                    }*/
+                });
+            }
+        },
+        mounted(){
+            this.starDataFn()
         }
     }
 </script>
@@ -306,8 +453,13 @@
         }
 
         >.state-shopping{
+            font-size: 14px;
             width:9%;
             margin-right: 2%;
+        }
+
+        >.state-time{
+            font-size: 14px;
         }
 
         >.state-why{

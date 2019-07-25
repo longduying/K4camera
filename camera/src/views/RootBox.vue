@@ -1,8 +1,8 @@
 <template>
-    <keep-alive>
-        <component :is="rootShowWho"></component>
-    </keep-alive>
-
+    <div>
+        <ChangeRoot v-if="!rootShowWho"></ChangeRoot>
+        <Root v-show="rootShowWho"></Root>
+    </div>
 </template>
 
 <script>
@@ -14,7 +14,8 @@
         name: "RootBox",
         data:function(){
             return {
-                rootShowWho:'Root'
+                rootShowWho:true,
+                userData:''
             }
         },
         components:{

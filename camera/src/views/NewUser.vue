@@ -36,14 +36,14 @@
                     访问权限：
                     <div>
                         <el-checkbox-group v-model="newUserRoot">
-                            <el-checkbox label="0">概况</el-checkbox>
-                            <el-checkbox label="1">商品管理</el-checkbox>
-                            <el-checkbox label="2">交易管理</el-checkbox>
-                            <el-checkbox label="3">财务管理</el-checkbox>
-                            <el-checkbox label="4">客户管理</el-checkbox>
-                            <el-checkbox label="5">数据分析</el-checkbox>
-                            <el-checkbox label="6">售后管理</el-checkbox>
-                            <el-checkbox label="7">权限管理</el-checkbox>
+                            <el-checkbox label="1">概况</el-checkbox>
+                            <el-checkbox label="2">商品管理</el-checkbox>
+                            <el-checkbox label="3">交易管理</el-checkbox>
+                            <el-checkbox label="4">财务管理</el-checkbox>
+                            <el-checkbox label="5">客户管理</el-checkbox>
+                            <el-checkbox label="6">数据分析</el-checkbox>
+                            <el-checkbox label="7">售后管理</el-checkbox>
+                            <el-checkbox label="8">权限管理</el-checkbox>
                         </el-checkbox-group>
                     </div>
                 </div>
@@ -65,7 +65,7 @@
             return {
             /*----------姓名 开始----------*/
                 //姓名正则
-                NameReg:/^[\u4e00-\u9fa5]{2,6}/,
+                NameReg:/^[\u4e00-\u9fa5]{2,6}$/,
                 //姓名
                 Name:'',
                 //对错符合
@@ -132,14 +132,22 @@
                         phone:this.Phone,
                         root:this.newUserRoot
                     }).then((res)=>{
-                        if (res.data.error){
-                            this.alertHead='失败';
-                            this.alertCon='新增账号失败，请稍后重试';
-                            this.open()
-                        } else {
-                            this.alertHead='成功';
-                            this.alertCon=`注册成功！用户名：${res.data.user}，，密码：${res.data.pass}。为保护账户安全，请及时修改密码！`;
-                            this.open()
+                        switch (res.data.error){
+                            case 1:
+                                this.alertHead='失败';
+                                this.alertCon='新增账号失败，请稍后重试';
+                                this.open();
+                                break;
+                            case 2:
+                                this.alertHead='失败';
+                                this.alertCon='手机号已被注册，请更换后重试！';
+                                this.open();
+                                break;
+                            case 0:
+                                this.alertHead='成功';
+                                this.alertCon=`注册成功！用户名：${res.data.user}，，密码：${res.data.pass}。为保护账户安全，请及时修改密码！`;
+                                this.open();
+                                break;
                         }
                     },()=>{
                         this.alertHead='失败';

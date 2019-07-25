@@ -28,7 +28,9 @@
                         <p>
                             <span class="iconfont icon-yanzhengma1"></span>
                         </p>
-                        <input style="width: 70px;left: -9px" type="text" placeholder="验证码" v-model="pass">
+                        <input style="width: 70px;left: -9px" type="text" placeholder="验证码" v-model="pass" @blur="passBlur">
+                        <span class="iconfont icon-cuo noPass" v-show="noPassNo"></span>
+                        <span class="iconfont icon-dui yesPass" v-show="noPassYes"></span>
                         <button :disabled="btnKey" @click="passBtn">{{timeCon}}</button>
                     </div>
                 </div>
@@ -36,8 +38,8 @@
 
             <div class="btn">
 
-                <button class="no-pass-btn-no">取消</button>
-                <button class="no-pass-btn-yes">确定</button>
+                <button class="no-pass-btn-no" @click="goHome">返回</button>
+                <button class="no-pass-btn-yes" @click="passGoBtn">确定</button>
 
             </div>
         </div>
@@ -46,7 +48,6 @@
 </template>
 
 <script>
-    //import './../assets/E-font/iconfont.css'
 
     export default {
         name: "NoPass",
@@ -82,6 +83,13 @@
                 //验证码
                 pass:'',
 
+                //弹框的提示内容
+                noPassAlertCon:'',
+
+                //验证码的图标
+                noPassNo:false,
+                noPassYes:false,
+
 
             }
         },
@@ -108,24 +116,96 @@
             },
             //点击发送验证码按钮
             passBtn(){
-                this.phoneKey=true;
-                this.btnKey=true;
-                let timeOver=window.setInterval( ()=> {
-                    this.s--;
-                    if (this.s<=-1){
-                        window.clearInterval(timeOver);
-                        this.timeCon='重新发送';
-                        this.s=60;
-                        this.phoneKey=false;
-                        this.btnKey=false;
-                        return
+                let timeOver;
+                this.$axios.post('/api/noPassPhone',{
+                    phone:this.phone
+                }).then((res)=>{
+                    switch (res.data.error){
+                        case 1:
+                            this.noPassAlertCon='验证码发送失败，请稍后再试。';
+                            this.noPassOpen();
+                            break;
+                        case 2:
+                            this.noPassAlertCon='手机号输入有误，请核对后重新输入！';
+                            this.noPassOpen();
+                            break;
+                        case 3:
+                            this.noPassAlertCon='您的账号被冻结，请联系系统管理员！';
+                            this.noPassOpen();
+                            break;
+                        case 0:
+                            this.noPassAlertCon='验证码发送成功！';
+                            this.noPassOpen();
+                            this.phoneKey=true;
+                            this.btnKey=true;
+                            //调用定时器
+                            timeOver=window.setInterval( ()=> {
+                                this.s--;
+                                if (this.s<=-1){
+                                    window.clearInterval(timeOver);
+                                    this.timeCon='重新发送';
+                                    this.s=60;
+                                    this.phoneKey=false;
+                                    this.btnKey=false;
+                                    return
+                                }
+                                this.timeCon='重新发送('+this.s+')';
+                            },1000);
+                            break;
+
                     }
-                    this.timeCon='重新发送('+this.s+')';
+                })
+            },
+            //验证码失去焦点
+            passBlur(){
+                if (!this.pass.trim()){
+                    this.noPassNo=true;
+                    this.noPassYes=!this.noPassNo;
+                    return false;
+                }
+                if (/^\d{6}$/.test(this.pass)){
+                    this.noPassNo=false;
+                    this.noPassYes=!this.noPassNo;
+                    return true;
+                }else {
+                    this.noPassNo=true;
+                    this.noPassYes=!this.noPassNo;
+                    return false;
+                }
+            },
+            //确定按钮被点击
+            passGoBtn(){
+                if(!this.phoneBlur() && !this.passBlur()){
+                    return
+                }
+                this.$axios.post('/api/passGoNew',{
+                    phone:this.phone,
+                    num:this.pass
+                }).then((res)=>{
+                    if (res.data.error) {
+                        this.noPassAlertCon='手机号验证失败，请稍后再试！';
+                        this.noPassOpen();
+                    }else {
+                        this.noPassAlertCon=`密码重置成功！新密码为：${res.data.pass}。为保障账号安全，请及时登录系统重置密码。`;
+                        this.noPassOpen();
+                        this.$router.push('/')
+                    }
+                })
+            },
+            //返回按钮被点击
+            goHome(){
+              this.$router.push('/')
+            },
+
+            //弹框
+            noPassOpen() {
+                this.$alert(this.noPassAlertCon, '提示', {
+                    confirmButtonText: '确定',
+                    /*callback: () => {
 
 
-                },1000)
-
-
+                    }*/
+                });
             }
         },
     }
@@ -233,6 +313,23 @@
     .no{
         .spanPos();
         color: red;
+    }
+
+    .spanPass{
+        position: absolute;
+        top: 2px;
+        right: 108px;
+        font-size: 20px;
+        font-weight: bold;
+    }
+    //验证码的正确、错误图标
+    .noPass{
+        .spanPass();
+        color: red;
+    }
+    .yesPass{
+        .spanPass();
+        color: green;
     }
 
     //忘记密码

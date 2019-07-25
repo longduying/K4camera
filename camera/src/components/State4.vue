@@ -3,7 +3,7 @@
         <!--标题-->
         <div class="root-head" >
             <span>详情</span>
-            <button>返回</button>
+            <button  @click="this.$parent.starBackBtn">返回</button>
         </div>
         <!--显示主体-->
         <div class=" clearfix" >
@@ -22,20 +22,43 @@
             <div class="state4-con-boss">
                 <div>
                     <i class="el-icon-circle-check"></i>
-                    <p>完成</p>
+                    <p>已完成</p>
                 </div>
-                <div class="state4-con">
-                    <div class="clearfix">
-                        <div>维修记录</div>
-                        <div class="state4-con-btn"><button>查看详情</button></div>
+                <!--用户描述信息-->
+                <div class="state4-user-con-box" >
+                    <div class="state4-user-con1">
+                        <p><b>用户描述：</b>{{state4Data[state4Length].star}}</p>
+                    </div>
+                    <div class="state4-user-con1">
+                        <p><b>用户联系方式：</b>{{state4Data[state4Length].userPhone}}</p>
+                    </div>
+                    <div class="state4-user-con2">
+                        <p><b>故障现象详细描述：</b></p>
+                        <div >
+                            {{state4Data[state4Length].starUserCon}}
+                        </div>
                     </div>
                 </div>
 
+                <!--处理意见-->
+                <div class="state4-user-con1-box">
+                    <b>受理备注：</b>
+                    <div >
+                        {{state4Data[state4Length].starBossCon}}
+                    </div>
+                </div>
+                <!--维修记录-->
+                <div class="state4-user-con1-box">
+                    <b>维修人员：</b>{{state4Data[state4Length].bossUserData}}
+                    <br>
+                    <b>维修记录：</b>
+                    <div >
+                        {{state4Data[state4Length].starBossCon}}
+                    </div>
+                </div>
             </div>
 
         </div>
-
-
     </div>
 
 </template>
@@ -43,11 +66,17 @@
 <script>
 
     export default {
-        name: "State4",
+        name: "state4",
         data:function () {
             return {
-                State1YesOrNo:'1'
+                //全部数据
+                state4Data:this.$parent.starBoxData,
+                //下标
+                state4Length:this.$parent.starBoxDataLength,
             }
+        },
+        methods:{
+
         }
 
     }
@@ -89,18 +118,22 @@
     }
 
 
+
+
     //详情
     .state4-con-boss{
         width: 90%;
         margin-left: 3%;
         margin-top: 20px;
+        background: #f2f2f2;
         border: #cccccc solid 1px;
         border-radius: 5px;
         padding: 1% 2%;
 
         >div{
             width: 100%;
-            margin-top: 40px;
+            margin: 40px 0 20px 0;
+
             text-align: center;
 
             >i{
@@ -114,49 +147,60 @@
             }
         }
 
-        //查看维修记录
-        .state4-con{
-            width: 100%;
-            margin-top: 70px;
-            margin-bottom:40px;
+        >.state4-user-con-box{
+            width: 95%;
+            margin-left: 2%;
+            padding-left: 10px;
+            background: white;
+            border: #cccccc solid 1px;
+            border-radius: 5px;
+            margin-top: 20px;
+            text-align: left;
 
-            >div{
-                width: 96%;
-                height: 50px;
-                line-height: 50px;
-                margin-left: 2%;
-                border: #cccccc solid 1px;
-                border-radius: 5px;
-                font-size: 18px;
+            //用户描述信息（简单）
+            >.state4-user-con1{
+                margin: 10px 0 10px 0;
+                width: 100%;
+
+            }
+
+            //用户描述（详细）
+            >.state4-user-con2{
+                width: 100%;
+                margin-bottom: 10px;
 
                 >div{
-                    float: left;
-                    width: 48%;
-                    text-align: left;
-                    margin-left: 2%;
+                    width: 96%;
+                    padding: 10px 2%;
+                    overflow: hidden;
                 }
+            }
+        }
 
-                >.state4-con-btn{
-                    text-align: right;
-                    margin-left: 0;
-                    margin-right: 2%;
+        >.state4-user-con1-box{
+            width: 95%;
+            margin-left: 2%;
+            padding:10px 0  0 10px;
+            background: white;
+            border: #cccccc solid 1px;
+            border-radius: 5px;
+            margin-top: 20px;
+            text-align: left;
 
-                    >button{
-                        width: 120px;
-                        height: 31px;
-                        border: 1px solid #cccccc;
-                        border-radius: 5px;
-                        cursor: pointer;
-                    }
-                }
-
-
-
+            >b{
+                font-size: 16px;
+            }
+            >div{
+                padding: 10px 2%;
             }
         }
 
 
     }
+
+
+
+
 
 
 

@@ -4,9 +4,20 @@
         <div class="root-head">
             <span>人员信息</span>
         </div>
+        <!--搜索框-->
         <div class="root-seo">
-            综合搜索：<input type="text" placeholder="姓名、手机号或账号关键字">
-            <button class="root-seo-btn">搜索</button>
+            <span @click="rootSeoShow" class="root-seo-box">
+                {{rootSeoCon}}
+                <span class="iconfont icon-xia"></span>：
+            </span>
+            <ul v-show="rootSeoTab" class="root-seo-state">
+                <li @click="rootSeoConTab(3)">全部</li>
+                <li @click="rootSeoConTab(0)">手机</li>
+                <li @click="rootSeoConTab(1)">账号</li>
+                <li @click="rootSeoConTab(2)">姓名</li>
+            </ul>
+            <input type="text" placeholder="全部模式下将显示所有数据" v-model="rootSeo">
+            <button class="root-seo-btn" @click="rootSeoGo">搜索</button>
         </div>
         <!--显示主体-->
         <div class="root-box">
@@ -18,13 +29,15 @@
                     <li>账号</li>
                     <li>
                         <span @click="navShow" class="root-state-box">
-                            当前状态
+                            {{rootNavStateCon}}
                             <span class="iconfont icon-xia"></span>
                         </span>
                         <ul v-show="rootNavState" class="root-nav-state">
-                            <li>正常</li>
-                            <li>冻结</li>
-                            <li>风险</li>
+                            <li @click="rootStateCon(0)">当前状态</li>
+                            <li @click="rootStateCon(1)">正常</li>
+                            <li @click="rootStateCon(2)">冻结</li>
+                            <li @click="rootStateCon(3)">风险</li>
+                            <li @click="rootStateCon(4)">离职</li>
                         </ul>
                     </li>
                     <li>操作</li>
@@ -33,40 +46,16 @@
             <!--内容显示区域-->
             <div class="root-body">
 
-                <div class="root-content">
-                    <p class="root-name">张文</p>
-                    <p class="root-phone">18109090040</p>
-                    <p class="root-user">LT0001</p>
-                    <p class="root-state">正常</p>
-                    <p class="root-btn">
-                        <span class="iconfont icon-iconset0137" @click="FnChangeRoot"></span>
-                    </p>
-                </div>
-                <div class="root-content">
-                    <p class="root-name">张文</p>
-                    <p class="root-phone">18109090040</p>
-                    <p class="root-user">LT0001</p>
-                    <p class="root-state">正常</p>
-                    <p class="root-btn">
-                        <span class="iconfont icon-iconset0137"></span>
-                    </p>
-                </div>
-                <div class="root-content">
-                    <p class="root-name">张文</p>
-                    <p class="root-phone">18109090040</p>
-                    <p class="root-user">LT0001</p>
-                    <p class="root-state">正常</p>
-                    <p class="root-btn">
-                        <span class="iconfont icon-iconset0137"></span>
-                    </p>
-                </div>
-                <div class="root-content">
-                    <p class="root-name">张文</p>
-                    <p class="root-phone">18109090040</p>
-                    <p class="root-user">LT0001</p>
-                    <p class="root-state">正常</p>
-                    <p class="root-btn">
-                        <span class="iconfont icon-iconset0137"></span>
+                <div class="root-content" v-for="(v,i) in userLi" :key="i">
+                    <p class="root-name" v-html="v.name"></p>
+                    <p class="root-phone" v-html="v.phone"></p>
+                    <p class="root-user">{{v.user}}</p>
+                    <p class="root-state" v-if="v.state==0 || v.state==1">正常</p>
+                    <p class="root-state" v-if="v.state==2 || v.state==3 || v.state==4">风险</p>
+                    <p class="root-state" v-if="v.state==5">冻结</p>
+                    <p class="root-state" v-if="v.state==11">离职</p>
+                    <p class="root-btn" :data="i" v-if="v.change">
+                        <span class="iconfont icon-iconset0137" @click="FnChangeRoot(i)"></span>
                     </p>
                 </div>
 
@@ -75,10 +64,14 @@
             <!--分页-->
             <div class="root-pages-box">
                 <el-pagination
-                        v-show="rootPagesShow"
+                        @current-change="rootPagesClick"
                         background
                         layout="prev, pager, next"
-                        :total="50">
+                        :hide-on-single-page="true"
+                        :total="rootPagesAllNum"
+                        :page-size="6"
+                        :pager-count='5'
+                        :current-page="rootPagesNum">
                 </el-pagination>
             </div>
         </div>
@@ -92,22 +85,269 @@
         name: "Root",
         data:function () {
             return {
+                //页面加载时的数据
+                userLi:[],
+
+
+            /*----------搜索框 开始----------*/
+                //搜索框输入内容
+                rootSeo:'',
+                //搜索框的下拉菜单
+                rootSeoTab:false,
+                //搜索框的显示内容
+                rootSeoCon:'全部',
+                //显示代号
+                rootSeoNum:0,
+                //搜索模式
+                rootSeoWho:2,
+            /*----------搜索框 结束----------*/
+
+
+            /*----------状态搜索 开始----------*/
                 //当前状态下拉框的显示隐藏
                 rootNavState:false,
-                //分页的显示隐藏
-                rootPagesShow:true
+                //状态的显示内容
+                rootNavStateCon:'当前状态',
+                //状态的类型
+                rootNavStateNum:'',
+            /*----------状态搜索 结束----------*/
+
+
+            /*----------页码 开始----------*/
+                //页码总数
+                rootPagesAllNum:10,
+                //当前页码数
+                rootPagesNum:1,
+            /*----------页码 结束----------*/
+
+
+
+                //弹框的内容
+                rootDataAlertCon:'',
+
+
             }
         },
         methods:{
+
+            //页面加载的时候请求函数
+            rootDataNew(){
+                this.$axios.post('/api/rootData',{
+                    pagesNum:this.rootPagesNum
+                }).then((res)=>{
+                    if (res.data.error){
+                        this.rootDataAlertCon='数据加载失败，请稍后再试。';
+                        this.rootDataOpen();
+                    } else {
+                        this.userLi=res.data.data;
+                        this.rootPagesAllNum=res.data.pagesNum;
+                    }
+                });
+            },
+
+
+        /*----------搜索 开始----------*/
+            //搜索的请求函数
+            rootSeoDataNew(){
+                if (this.userLi.length){
+                    this.userLi=[];
+                }
+                if (this.rootSeoNum==3){
+                    this.rootSeoWho=2;
+                    this.rootSeo='';
+                    this.rootPagesNum=1;
+                    this.rootDataNew();
+                }else {
+                    this.$axios.post('/api/rootSeo',{
+                        seo:this.rootSeo,
+                        num:this.rootSeoNum,
+                        pagesNum:this.rootPagesNum
+                    }).then((res)=>{
+                        if (res.data.error){
+                            this.rootDataAlertCon='数据加载失败，请稍后再试！';
+                        } else{
+                            if (res.data.data.length){
+                                this.userLi=res.data.data;
+                                this.rootPagesAllNum=res.data.pagesNum;
+                            } else {
+                                this.userLi=[{name:'&nbsp;',phone:'&nbsp; ',user:'没有符合要求的数据',state:'12',change:0}];
+                                this.rootPagesAllNum=0;
+                            }
+
+                        }
+                    })
+                }
+            },
+            //搜索框的下拉菜单显示隐藏
+            rootSeoShow(){
+                this.rootSeoTab=!this.rootSeoTab;
+            },
+            //导航栏显示搜索的类别
+            rootSeoConTab(num){
+                this.rootSeoNum=num;
+                switch (num){
+                    case 0:
+                        this.rootSeoCon='手机';
+                        this.rootSeoTab=false;
+                        break;
+                    case 1:
+                        this.rootSeoCon='账号';
+                        this.rootSeoTab=false;
+                        break;
+                    case 2:
+                        this.rootSeoCon='姓名';
+                        this.rootSeoTab=false;
+                        break;
+                    case 3:
+                        this.rootSeoCon='全部';
+                        this.rootSeoTab=false;
+                        break;
+
+                }
+            },
+            //搜索按钮点击时
+            rootSeoGo(){
+                this.rootPagesNum=1;
+                this.rootNavStateCon='当前状态';
+                this.rootSeoWho=0;
+                this.rootSeoDataNew();
+                /*if (this.userLi.length){
+                    this.userLi=[];
+                }
+                if (this.rootSeoNum==3){
+                    this.rootSeoWho=2;
+                    this.rootSeo='';
+                    this.rootPagesNum=1;
+                    this.rootDataNew();
+                }else {
+                    this.rootSeoDataNew();
+                }*/
+            },
+        /*----------搜索 结束----------*/
+
+
+        /*----------状态 开始----------*/
             //状态点击下拉框的显示隐藏
             navShow(){
                 this.rootNavState=!this.rootNavState;
             },
+            //点击下拉框改变显示内
+            rootStateCon(num){
+                this.rootNavStateNum=num;
+                this.rootSeoWho=1;
+                this.rootSeoCon='全部';
+                this.rootPagesNum=1;
+                switch (num){
+                    case 0:
+                        this.rootNavStateCon='当前状态';
+                        this.rootNavState=false;
+                        this.rootStateSeo(0);
+                        break;
+                    case 1:
+                        this.rootNavStateCon='正常';
+                        this.rootNavState=false;
+                        this.rootStateSeo(1);
+                        break;
+                    case 2:
+                        this.rootNavStateCon='冻结';
+                        this.rootNavState=false;
+                        this.rootStateSeo(2);
+                        break;
+                    case 3:
+                        this.rootNavStateCon='风险';
+                        this.rootNavState=false;
+                        this.rootStateSeo(3);
+                        break;
+                    case 4:
+                        this.rootNavStateCon='离职';
+                        this.rootNavState=false;
+                        this.rootStateSeo(4);
+                        break;
+                }
+            },
+            //状态搜索
+            rootStateSeo(num){
+                if (this.userLi.length){
+                    this.userLi=[];
+                }
+                if (num==0){
+                    this.rootSeoWho=2;
+                    this.rootPagesNum=1;
+                    this.rootDataNew();
+                    return
+                }
+                this.$axios.post('/api/rootStateSeo',{
+                    num:num,
+                    pagesNum:this.rootPagesNum
+                }).then((res)=>{
+                    if (res.data.error){
+                        this.rootDataAlertCon='数据加载失败，请稍后再试！';
+                    } else{
+                        if (res.data.data.length){
+                            this.userLi=res.data.data;
+                            this.rootPagesAllNum=res.data.pagesNum;
+                        } else {
+                            this.userLi=[{name:'&nbsp;',phone:'&nbsp; ',user:'没有符合要求的数据',state:'12',change:0}];
+                            this.rootPagesAllNum=0;
+                        }
+                    }
+                })
+            },
+
+        /*----------状态 结束----------*/
+
+            //页码事件
+            rootPagesClick(pageNum){
+                this.rootPagesNum=pageNum;
+                //rootSeoWho值为0表示的是搜索栏搜索，1表示状态搜素，2表示显示全部
+                switch (this.rootSeoWho) {
+                    case 0:
+                        this.rootSeoDataNew();
+                        break;
+                    case 1:
+                        this.rootStateSeo(this.rootNavStateNum);
+                        break;
+                    case 2:
+                        this. rootDataNew();
+                        break;
+                }
+
+            },
+
+
+
+
             //编辑按钮被点击
-            FnChangeRoot(){
-                this.$parent.rootShowWho='ChangeRoot';
+            FnChangeRoot(i){
+                this.$parent.rootShowWho=false;
+                this.$parent.userData=[this.userLi[i]];
+            },
+
+
+            //弹框
+            rootDataOpen() {
+                this.$alert(this.rootDataAlertCon, '提示', {
+                    confirmButtonText: '确定',
+                    /*callback: () => {
+
+
+                    }*/
+                });
             }
-        }
+        },
+        mounted(){
+            this.$axios.post('/api/rootData',{
+                pagesNum:this.rootPagesNum
+            }).then((res)=>{
+                if (res.data.error){
+                    this.rootDataAlertCon='数据加载失败，请稍后再试。';
+                    this.rootDataOpen();
+                } else {
+                    this.userLi=res.data.data;
+                    this.rootPagesAllNum=res.data.pagesNum;
+                }
+            })
+        },
     }
 </script>
 
@@ -134,6 +374,7 @@
         margin-top: 40px;
         text-align: right;
         font-size:18px;
+        position: relative;
 
         >input{
             height: 25px;
@@ -219,6 +460,38 @@
             }
         }
     }
+
+    //搜索框的下拉
+    .root-seo-box{
+        position: relative;
+        cursor: pointer;
+    }
+    .root-seo-state{
+        width: 85px;
+        position: absolute;
+        top: 28px;
+        right:307px;
+        border: 1px solid #ccc;
+        background: white;
+        border-bottom-right-radius: 5px;
+        border-bottom-left-radius: 5px;
+        box-shadow: 2px 2px 8px 2px #ccc;
+        overflow: hidden;
+        z-index: 999;
+
+        >li{
+            border-bottom: 1px  solid #ccc;
+            text-align: center;
+
+
+            &:hover{
+                cursor:pointer;
+                background: #0077aa;
+                color: white;
+            }
+        }
+    }
+
 
     //内容显示区
     .root-body{
