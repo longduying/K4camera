@@ -1,5 +1,5 @@
 <template>
-    <el-main id="C-main7"><div>{{oDate.getFullYear()+'年'+oDate.getMonth()+'月'+oDate.getDate()+'日'}}</div>
+    <el-main id="C-main7"><div>{{oDate.getFullYear()+'年'+(oDate.getMonth()+1)+'月'+oDate.getDate()+'日'}}</div>
         <div>星期{{oDate.getDay() | datehandler()}}</div></el-main>
 </template>
 

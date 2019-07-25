@@ -1,36 +1,38 @@
 <template>
+
       <el-table
-              :data="tableData"
+              :data="tit"
             border
             style="width: 100%">
         <el-table-column
-                prop="date"
+                prop="main_head"
                 label="商品名称"
-                width="180">
+                width="180"
+                >
         </el-table-column>
         <el-table-column
-                prop="name"
+                prop="buy_time"
                 label="支付时间"
                 width="180">
         </el-table-column>
         <el-table-column
-                prop="address"
+                prop="order_num"
                 label="订单号">
         </el-table-column>
         <el-table-column
-                prop="address"
+                prop="user_name"
                 label="客户昵称">
         </el-table-column>
         <el-table-column
-                prop="address"
+                prop="allmount"
                 label="金额（元）">
         </el-table-column>
         <el-table-column
-                prop="address"
+                prop="state"
                 label="状态">
         </el-table-column>
         <el-table-column
-                prop="address"
+                prop="details"
                 label="操作">
         </el-table-column>
     </el-table>
@@ -43,29 +45,22 @@
         name: "Cimformation1",
         data() {
             return {
-
-                tableData: [{
-                    date: '2016-05-02',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1518 弄'
-                }, {
-                    date: '2016-05-04',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1517 弄'
-                }, {
-                    date: '',
-                    name: '',
-                    address: ''
-                }, {
-                    date: '',
-                    name: '',
-                    address: ''
-                }]
+               msg:' '
             }
         },
+      mounted(){
+          /*this.msg=*/
+      },
+
+
+
+      props:['tit'],
     }
 </script>
 
 <style scoped>
+td{
+  text-align: center;
+}
 
 </style>
